@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 19:18:52 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/20 23:39:35 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_vector			*parse_face_line(char *line)
 	while (i < len)
 	{
 		sscanf(line + i, "%d ", &num);
+		num--;
 		VECTOR_ADD(face, &num);
 		while (ft_isdigit(line[i]))
 			i++;

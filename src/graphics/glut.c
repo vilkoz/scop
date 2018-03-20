@@ -6,12 +6,16 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 20:00:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 00:55:51 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 #include "glut_callbacks.h"
+
+static void		cleanup()
+{
+}
 
 static void		set_glut_options(void)
 {
@@ -22,7 +26,7 @@ static void		set_glut_options(void)
 	glutReshapeFunc(resize_function);
 	glutDisplayFunc(render_function);
 	glutTimerFunc(0, timer_function, 0);
-	/* glutCloseFunc(cleanup); */
+	glutCloseFunc(cleanup);
 	glutIdleFunc(idle_function);
 }
 
@@ -43,8 +47,8 @@ void			init_glut(int ac, char **av, t_window *win)
 	GLenum		err;
 	glutInit(&ac, av);
 	set_window_callback_handle(win);
-	set_glut_options();
 	init_window(win);
+	set_glut_options();
 	glewExperimental = GL_TRUE;
 	if ((err = glewInit()) != GLEW_OK)
 	{
@@ -57,6 +61,6 @@ void			init_glut(int ac, char **av, t_window *win)
 				glewGetErrorString(err));
 		/* exit(-1); */
 	}
-	create_vbo(win->obj, &(win->ids));
 	load_shaders(&(win->ids));
+	create_vbo(win->obj, &(win->ids));
 }
