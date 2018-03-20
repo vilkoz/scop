@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 00:11:04 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/20 16:34:59 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,17 @@
 #include "libft.h"
 #include "parser/parser.h"
 
-static char		*g_names[5] = {
+#define PARSE_DEBUG 1
+
+enum				e_line_type{
+	VERTEX,
+	TEXTURE_VERTEX,
+	NORMAL_VERTEX,
+	FACE,
+	LINE_TYPE_NUM
+};
+
+static char			*g_names[5] = {
 	"v ",
 	"vt ",
 	"vn ",
@@ -31,7 +41,7 @@ static t_list		*(*g_functions[5])(char **, int *, char *) = {
 	NULL
 };
 
-static size_t	g_array_offsets[5] = {
+static size_t		g_array_offsets[5] = {
 	offsetof(struct s_parsed_object, v),
 	offsetof(struct s_parsed_object, vt),
 	offsetof(struct s_parsed_object, vn),
@@ -39,7 +49,7 @@ static size_t	g_array_offsets[5] = {
 	0
 };
 
-static size_t	g_num_offsets[5] = {
+static size_t		g_num_offsets[5] = {
 	offsetof(struct s_parsed_object, num_v),
 	offsetof(struct s_parsed_object, num_vt),
 	offsetof(struct s_parsed_object, num_vn),
@@ -47,7 +57,7 @@ static size_t	g_num_offsets[5] = {
 	0
 };
 
-char *read_file_to_string(char *filename)
+char				*read_file_to_string(char *filename)
 {
 	char		*buffer;
 	long int	length;
@@ -70,14 +80,14 @@ char *read_file_to_string(char *filename)
 	return (buffer);
 }
 
-t_list				*parse_face_line(char *line)
+t_vector			*parse_face_line(char *line)
 {
-	t_list		*face;
+	t_vector	*face;
 	size_t		len;
 	size_t		i;
 	int			num;
 
-	face = NULL;
+	face = vector_new(NULL, 0, sizeof(int));
 	if ((len = ft_strlen(line)) == 0 || len < 5)
 	{
 		fprintf(stderr, "wrong face line: %s!\n", line);
@@ -89,7 +99,8 @@ t_list				*parse_face_line(char *line)
 	while (i < len)
 	{
 		sscanf(line + i, "%d ", &num);
-		ft_lstadd(&face, ft_lstnew((void*)&num, sizeof(int)));
+		/* ft_lstadd(&face, ft_lstnew((void*)&num, sizeof(int))); */
+		VECTOR_ADD(face, &num);
 		while (ft_isdigit(line[i]))
 			i++;
 		while (i < len && line[i] == ' ')
@@ -101,17 +112,22 @@ t_list				*parse_face_line(char *line)
 t_list				*face_parser(char **lines, int *i, char *prefix)
 {
 	// TODO: FORMAT LINE that supports 15/34/234 //234 //234
-	t_list		*vertices;
-	t_list		*parsed_line;
+	t_vector	*vertices;
+	t_vector	*parsed_line;
 
-	vertices = NULL;
+	vertices = vector_new(NULL, 0, sizeof(t_vector*));
 	while (lines[*i] && !ft_strncmp(lines[(*i)], prefix, ft_strlen(prefix)))
 	{
 		parsed_line = parse_face_line(lines[*i]);
-		ft_lstadd(&vertices, ft_lstnew((void*)&parsed_line, sizeof(t_list*)));
+		/* ft_lstadd(&vertices, ft_lstnew((void*)&parsed_line, sizeof(t_list*))); */
+		/* printf("1 parsed line = %p\n", parsed_line); */
+		/* for (size_t j = 0; j < parsed_line->size; j++) */
+		/* 	printf("%d, parsed_line[%zu] = %d\n", *i, j, *(int*)vector_get(parsed_line, j)); */
+		VECTOR_ADD(vertices, &parsed_line);
+		/* printf("2 parsed line = %p\n", *(void**)vector_get(vertices, vertices->size - 1)); */
 		++(*i);
 	}
-	return (vertices);
+	return ((t_list*)vertices);
 }
 
 t_list				*face_elment_parser(char **lines, int *i, char *prefix)
@@ -141,11 +157,15 @@ void				call_function_by_index(char **lines, int *i, int j,
 	t_vertex			***array_offset;
 
 	tmp = g_functions[j](lines, i, g_names[j]);
-	tmp = ft_lst_rev(tmp);
+	if (j != FACE)
+		tmp = ft_lst_rev(tmp);
 	num_offset = (unsigned int*)(((char*)obj) + g_num_offsets[j]);
-	*num_offset = (unsigned int)ft_lst_size(tmp);
+	if (j != FACE)
+		*num_offset = (unsigned int)ft_lst_size(tmp);
+	else
+		*num_offset = ((t_vector*)(tmp))->size;
 	array_offset = (t_vertex***)((char*)obj + g_array_offsets[j]);
-	if (j != 3)
+	if (j != FACE)
 	{
 		*array_offset = (t_vertex**)ft_lst_to_array(tmp);
 		ft_lstdel(&tmp, NULL);
@@ -186,25 +206,27 @@ t_parsed_object		*obj_file_parser(char *filename)
 	buf = read_file_to_string(filename);
 	obj = obj_parser(buf);
 	ft_memdel((void**)&buf);
-
+#ifdef PARSE_DEBUG
 	printf("obj->num_v = %u\n", obj->num_v);
 	printf("obj->num_vt = %u\n", obj->num_vt);
 	printf("obj->num_vn = %u\n", obj->num_vn);
 	printf("obj->num_f = %u\n", obj->num_f);
-#define PRINT_VERTEX(v) (v)->x, (v)->y, (v)->z
+# define PRINT_VERTEX(v) (v)->x, (v)->y, (v)->z
 	int i = -1;
 	while((obj->v)[++i]) printf("obj->v[%d] = %f, %f, %f\n", i, PRINT_VERTEX(obj->v[i]));
-	t_list *tmp_i = obj->f;
-	t_list *tmp_j = NULL;
-	while (tmp_i)
+
+	/* int	j; */
+	t_vector	**parsed_line;
+	i = -1;
+	while(++i < (int)obj->f->size)
 	{
-		tmp_j = (t_list*)(tmp_i->content);
-		while (tmp_j)
-		{
-			printf(" %ls ", (int*)tmp_j->content);
-			tmp_j = tmp_j->next;
-		}
-		tmp_i = tmp_i->next;
+		/* j = -1; */
+		VECTOR_GET_TO(parsed_line, obj->f, i);
+		printf("f[%d] = ", i);
+		for (size_t j = 0; j < (*parsed_line)->size; j++)
+			printf(" %d", *(int*)vector_get(*parsed_line, j));
+		puts("");
 	}
+#endif
 	return (obj);
 }

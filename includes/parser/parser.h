@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:09 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 00:04:58 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:11:42 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct		s_parsed_object
 	unsigned int	num_vn;
 	t_vertex		**vn;
 	unsigned int	num_f;
-	t_list			*f;
+	t_vector		*f;
 }					t_parsed_object;
 
 t_list				*face_parser(char **lines, int *i, char *prefix);
