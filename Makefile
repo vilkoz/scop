@@ -2,7 +2,7 @@ NAME=scop
 
 VPATH=src
 
-FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lglut -g
+FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lglut -lm -g
 
 all: $(NAME)
 
@@ -13,6 +13,8 @@ SRC=main.c							\
 	graphics/glut_callbacks.c		\
 	graphics/create_vbo.c			\
 	graphics/load_shaders.c			\
+	matrix/matrix_utils.c			\
+	matrix/special_matrices.c		\
 
 BINDIR=bin
 
