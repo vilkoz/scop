@@ -6,13 +6,14 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 16:34:59 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/20 19:18:52 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stddef.h>
 #include "libft.h"
+#include "parser/reader.h"
 #include "parser/parser.h"
 
 #define PARSE_DEBUG 1
@@ -57,29 +58,6 @@ static size_t		g_num_offsets[5] = {
 	0
 };
 
-char				*read_file_to_string(char *filename)
-{
-	char		*buffer;
-	long int	length;
-	FILE		*f;
-
-	buffer = NULL;
-	f = fopen(filename, "rb");
-	if (!f)
-	{
-		perror(filename);
-		exit(1);
-	}
-	fseek(f, 0, SEEK_END);
-	length = ftell(f);
-	fseek(f, 0, SEEK_SET);
-	buffer = ft_strnew(length);
-	if (buffer)
-		fread(buffer, 1, length, f);
-	fclose(f);
-	return (buffer);
-}
-
 t_vector			*parse_face_line(char *line)
 {
 	t_vector	*face;
@@ -99,7 +77,6 @@ t_vector			*parse_face_line(char *line)
 	while (i < len)
 	{
 		sscanf(line + i, "%d ", &num);
-		/* ft_lstadd(&face, ft_lstnew((void*)&num, sizeof(int))); */
 		VECTOR_ADD(face, &num);
 		while (ft_isdigit(line[i]))
 			i++;
@@ -119,12 +96,7 @@ t_list				*face_parser(char **lines, int *i, char *prefix)
 	while (lines[*i] && !ft_strncmp(lines[(*i)], prefix, ft_strlen(prefix)))
 	{
 		parsed_line = parse_face_line(lines[*i]);
-		/* ft_lstadd(&vertices, ft_lstnew((void*)&parsed_line, sizeof(t_list*))); */
-		/* printf("1 parsed line = %p\n", parsed_line); */
-		/* for (size_t j = 0; j < parsed_line->size; j++) */
-		/* 	printf("%d, parsed_line[%zu] = %d\n", *i, j, *(int*)vector_get(parsed_line, j)); */
 		VECTOR_ADD(vertices, &parsed_line);
-		/* printf("2 parsed line = %p\n", *(void**)vector_get(vertices, vertices->size - 1)); */
 		++(*i);
 	}
 	return ((t_list*)vertices);

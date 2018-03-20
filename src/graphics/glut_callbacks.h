@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   graphics_callbacks.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 18:37:53 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/03/20 18:17:07 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/03/20 18:26:01 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "parser/parser.h"
-#include "graphics.h"
+#ifndef GRAPHICS_CALLBACKS_H
+# define GRAPHICS_CALLBACKS_H
 
-int		main(int ac, char **av)
-{
-	t_window			win;
+# include "graphics.h"
 
-	if (ac != 2)
-	{
-		fprintf(stderr, "usage ./Scop file.obj\n");
-		exit(1);
-	}
-	ft_bzero((void*)&win, sizeof(win));
-	win.obj = obj_file_parser(av[1]);
-	init_glut(ac, av, &win);
-	glutMainLoop();
-}
+void				set_window_callback_handle(t_window *win);
+void				idle_function(void);
+void				timer_function(int count);
+void				resize_function(int w, int h);
+void				render_function(void);
+
+#endif

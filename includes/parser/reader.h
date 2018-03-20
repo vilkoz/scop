@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reader.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 18:37:53 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/03/20 19:18:31 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/03/20 19:18:37 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "parser/parser.h"
-#include "graphics.h"
+#ifndef READER_H
+# define READER_H
 
-int		main(int ac, char **av)
-{
-	t_window			win;
+char				*read_file_to_string(char *filename);
 
-	if (ac != 2)
-	{
-		fprintf(stderr, "usage ./Scop file.obj\n");
-		exit(1);
-	}
-	ft_bzero((void*)&win, sizeof(win));
-	win.obj = obj_file_parser(av[1]);
-	init_glut(ac, av, &win);
-	glutMainLoop();
-}
+#endif

@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 18:37:53 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/03/20 19:17:30 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/03/20 19:18:04 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "parser/parser.h"
-#include "graphics.h"
+#include <stddef.h>
+#include "libft.h"
 
-int		main(int ac, char **av)
+char				*read_file_to_string(char *filename)
 {
-	t_window			win;
+	char		*buffer;
+	long int	length;
+	FILE		*f;
 
-	if (ac != 2)
+	buffer = NULL;
+	f = fopen(filename, "rb");
+	if (!f)
 	{
-		fprintf(stderr, "usage ./Scop file.obj\n");
+		perror(filename);
 		exit(1);
 	}
-	ft_bzero((void*)&win, sizeof(win));
-	win.obj = obj_file_parser(av[1]);
-	init_glut(ac, av, &win);
-	glutMainLoop();
+	fseek(f, 0, SEEK_END);
+	length = ftell(f);
+	fseek(f, 0, SEEK_SET);
+	buffer = ft_strnew(length);
+	if (buffer)
+		fread(buffer, 1, length, f);
+	fclose(f);
+	return (buffer);
 }

@@ -2,12 +2,17 @@ NAME=scop
 
 VPATH=src
 
-FLAGS=-Wall -Wextra -Werror -I libft -I includes -g
+FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lglut -g
 
 all: $(NAME)
 
-SRC=main.c					\
-	parser/parser.c
+SRC=main.c							\
+	parser/reader.c					\
+	parser/parser.c					\
+	graphics/glut.c					\
+	graphics/glut_callbacks.c		\
+	graphics/create_vbo.c			\
+	graphics/load_shaders.c			\
 
 BINDIR=bin
 
@@ -17,13 +22,13 @@ LIBFT=libft/libft.a
 
 $(BINDIR)/%.o: %.c
 	@mkdir -p $(shell dirname $@)
-	gcc $(FLAGS) -c -o $@ $<
+	gcc -c -o $@ $< $(FLAGS)
 
 $(LIBFT):
 	make -C libft
 
 $(NAME): $(BINS) $(LIBFT)
-	gcc $(FLAGS) -o $(NAME) $(BINS) $(LIBFT)
+	gcc -o $(NAME) $(BINS) $(LIBFT) $(FLAGS)
 
 clean:
 	rm -f $(BINS)
