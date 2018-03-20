@@ -8,7 +8,7 @@
 # Object files
 *.o
 *.ko
-*.obj
+#*.obj
 *.elf
 
 # Linker output
@@ -66,3 +66,5 @@ Session.vim
 *~
 # auto-generated tag files
 tags
+
+scop
