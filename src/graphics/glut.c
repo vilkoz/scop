@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 00:55:51 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 02:43:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void		set_glut_options(void)
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 	glutReshapeFunc(resize_function);
 	glutDisplayFunc(render_function);
+	glutKeyboardFunc(keyboard_function);
 	glutTimerFunc(0, timer_function, 0);
 	glutCloseFunc(cleanup);
 	glutIdleFunc(idle_function);
@@ -42,12 +43,20 @@ static void		init_window(t_window *win)
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
+static void		init_camera(t_camera *cam)
+{
+	cam->pos.x = 0;
+	cam->pos.y = 0;
+	cam->pos.z = 2;
+}
+
 void			init_glut(int ac, char **av, t_window *win)
 {
 	GLenum		err;
 	glutInit(&ac, av);
 	set_window_callback_handle(win);
 	init_window(win);
+	init_camera(&(win->cam));
 	set_glut_options();
 	glewExperimental = GL_TRUE;
 	if ((err = glewInit()) != GLEW_OK)

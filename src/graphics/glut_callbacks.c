@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 02:30:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 02:56:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ void				set_window_callback_handle(t_window *win)
 void				idle_function(void)
 {
 	glutPostRedisplay();
+}
+
+void				keyboard_function(unsigned char key, int x, int y)
+{
+	(void)x;
+	(void)y;
+	printf("key = %d\n", key);
+	if (key == 'w')
+		g_win->cam.pos.z += 1.0;
+	else if (key == 's')
+		g_win->cam.pos.z += -1.0;
+	else if (key == 'a')
+		g_win->cam.pos.x += 1.0;
+	else if (key == 'd')
+		g_win->cam.pos.x += -1.0;
 }
 
 void				timer_function(int count)
@@ -59,17 +74,18 @@ void				draw_object(void)
 	t_matrix		projection;
 
 	INIT_EYE(model);
-	rotate_matrix(&model, 30.0f * (M_PI / 180.0f), 'x');
-	rotate_matrix(&model, 30.0f * (M_PI / 180.0f), 'y');
+	rotate_matrix(&model, 90.0f * (M_PI / 180.0f), 'y');
+	/* rotate_matrix(&model, 30.0f * (M_PI / 180.0f), 'y'); */
 	INIT_EYE(view);
-	translate_matrix(&view, 0, 0, -2);
+	translate_matrix(&view, -g_win->cam.pos.x, -g_win->cam.pos.y,
+			-g_win->cam.pos.z);
 	projection = projection_matrix(60.0f, (float)(W / H), 0.1f, 100.0f);
 	glUseProgram(g_win->ids.program);
 	glUniformMatrix4fv(g_win->ids.model_uniform, 1, GL_FALSE, model.m);
 	glUniformMatrix4fv(g_win->ids.view_uniform, 1, GL_FALSE, view.m);
 	glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE,
 			projection.m);
-	glDrawElements(GL_TRIANGLE_STRIP, g_win->obj->num_f, GL_UNSIGNED_INT, (GLvoid*)0);
+	glDrawElements(GL_TRIANGLES, g_win->obj->num_f, GL_UNSIGNED_INT, (GLvoid*)0);
 }
 
 void				render_function(void)

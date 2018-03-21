@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_callbacks.h                               :+:      :+:    :+:   */
+/*   glut_callbacks.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:17:07 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 18:26:01 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 02:35:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void				idle_function(void);
 void				timer_function(int count);
 void				resize_function(int w, int h);
 void				render_function(void);
+void				keyboard_function(unsigned char key, int x, int y);
 
 #endif

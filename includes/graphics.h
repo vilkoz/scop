@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 02:30:32 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 02:39:41 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef struct		s_ids
 	GLuint			projection_uniform;
 }					t_ids;
 
+typedef struct		s_camera
+{
+	t_vertex		pos;
+}					t_camera;
+
 typedef struct		s_window
 {
 	int				w;
@@ -47,6 +52,7 @@ typedef struct		s_window
 	unsigned		frames;
 	t_ids			ids;
 	t_parsed_object	*obj;
+	t_camera		cam;
 }					t_window;
 
 void				init_glut(int ac, char **av, t_window *win);
