@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:58:45 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 11:14:16 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 11:26:55 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@ void		add_line(t_vector *flat, t_vector *tmp)
 	int		*tmp_int;
 
 	i = -1;
-	printf("f = ");
 	while (++i < (int)tmp->size)
 	{
 		VECTOR_GET_TO(tmp_int, tmp, i);
 		VECTOR_ADD(flat, tmp_int);
-		printf("\t%d", *tmp_int);
 	}
-	while (i % 3 != 0)
+	while (i % 4 != 0)
 	{
-		VECTOR_GET_TO(tmp_int, tmp, /*tmp->size - */i % 3);
+		VECTOR_GET_TO(tmp_int, tmp, i % tmp->size + 1);
 		VECTOR_ADD(flat, tmp_int);
-		printf("\t%d", *tmp_int);
 		i++;
 	}
-	puts("");
 }
 
 t_vector	*flatten_indexes_vector(t_vector *f)
