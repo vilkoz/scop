@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 23:00:41 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 02:30:32 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ typedef struct		s_ids
 	GLuint			ebo;
 	GLuint			color_buffer;
 	GLuint			index_buffer;
+	GLuint			model_uniform;
+	GLuint			view_uniform;
+	GLuint			projection_uniform;
 }					t_ids;
 
 typedef struct		s_window
