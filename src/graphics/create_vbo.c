@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:58:45 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 01:03:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 11:14:16 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		add_line(t_vector *flat, t_vector *tmp)
 	}
 	while (i % 3 != 0)
 	{
-		VECTOR_GET_TO(tmp_int, tmp, i % 3);
+		VECTOR_GET_TO(tmp_int, tmp, /*tmp->size - */i % 3);
 		VECTOR_ADD(flat, tmp_int);
 		printf("\t%d", *tmp_int);
 		i++;
@@ -84,10 +84,10 @@ void		create_vbo(t_parsed_object *obj, t_ids *ids)
 	glBindVertexArray(ids->vao);
 	glGenBuffers(1, &(ids->vbo));
 	glBindBuffer(GL_ARRAY_BUFFER, ids->vbo);
-	glBufferData(GL_ARRAY_BUFFER, v->size, (float*)v->elems, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, v->size * v->elem_size, (float*)v->elems, GL_STATIC_DRAW);
 	glGenBuffers(1, &(ids->ebo));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ids->ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, f->size, (int*)f->elems, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, f->size * f->elem_size, (int*)f->elems, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 	glEnableVertexAttribArray(0);
 	ErrorCheckValue = glGetError();
