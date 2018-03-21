@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 19:45:34 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 23:16:10 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void		object_create_vao(t_object *obj)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj->f->size * obj->f->elem_size,
 			(int*)obj->f->elems, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
-	glBindVertexArray(0); // disable VBO
+	/* glBindVertexArray(0); // disable VBO */
 	glEnableVertexAttribArray(0); // isable VAO
 	ErrorCheckValue = glGetError();
 	if (ErrorCheckValue != GL_NO_ERROR)
@@ -119,7 +119,15 @@ void			object_draw(t_object *obj, t_window *win)
 	glBindVertexArray(obj->ids.vao);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
 	glDrawElements(GL_QUADS, obj->f->size, GL_UNSIGNED_INT, (GLvoid*)0);
+	glEnableVertexAttribArray(0); // isable VAO
 	glBindVertexArray(0);
+	GLenum ErrorCheckValue = glGetError();
+	if (ErrorCheckValue != GL_NO_ERROR)
+	{
+		fprintf(stderr,"ERROR: Could not create a VBO: %s \n",
+				gluErrorString(ErrorCheckValue));
+		exit(-1);
+	}
 }
 
 t_object		*new_object(t_parsed_object *p)
