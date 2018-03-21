@@ -11,10 +11,11 @@ SRC=main.c							\
 	parser/parser.c					\
 	graphics/glut.c					\
 	graphics/glut_callbacks.c		\
-	graphics/create_vbo.c			\
 	graphics/load_shaders.c			\
 	matrix/matrix_utils.c			\
 	matrix/special_matrices.c		\
+	object/object.c					\
+	#graphics/create_vbo.c			\
 
 BINDIR=bin
 

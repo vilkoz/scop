@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 23:39:35 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:26:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "parser/reader.h"
 #include "parser/parser.h"
 
-#define PARSE_DEBUG 1
+#define PARSE_DEBUG 0
 
 enum				e_line_type{
 	VERTEX,
@@ -176,10 +176,11 @@ t_parsed_object		*obj_file_parser(char *filename)
 	char				*buf;
 	t_parsed_object		*obj;
 
-	buf = read_file_to_string(filename);
+	if ((buf = read_file_to_string(filename)) == NULL)
+		return (NULL);
 	obj = obj_parser(buf);
 	ft_memdel((void**)&buf);
-#ifdef PARSE_DEBUG
+#if defined(PARSE_DEBUG) && PARSE_DEBUG == 1
 	printf("obj->num_v = %u\n", obj->num_v);
 	printf("obj->num_vt = %u\n", obj->num_vt);
 	printf("obj->num_vn = %u\n", obj->num_vn);

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:17:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 19:18:04 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:25:55 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char				*read_file_to_string(char *filename)
 	if (!f)
 	{
 		perror(filename);
-		exit(1);
+		return (NULL);
 	}
 	fseek(f, 0, SEEK_END);
 	length = ftell(f);

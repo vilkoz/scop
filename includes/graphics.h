@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 02:39:41 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:13:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ typedef struct		s_window
 	char			*title;
 	unsigned		frames;
 	t_ids			ids;
-	t_parsed_object	*obj;
+	/* t_parsed_object	*obj; */
 	t_camera		cam;
+	t_vector		*obj;
 }					t_window;
 
 void				init_glut(int ac, char **av, t_window *win);

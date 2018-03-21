@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 02:43:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:33:28 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void			init_glut(int ac, char **av, t_window *win)
 	{
 		fprintf(stderr,"ERROR: glew_init: %s \n",
 				glewGetErrorString(err));
-		/* exit(-1); */
+		exit(-1);
 	}
 	load_shaders(&(win->ids));
-	create_vbo(win->obj, &(win->ids));
+	/* create_vbo(win->obj, &(win->ids)); */
 }
