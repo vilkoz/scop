@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:09 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/20 15:11:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/22 00:54:55 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 # define PARSER_H
 
 # include "libft.h"
-
-typedef struct		s_vertex
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_vertex;
+# include "vertex.h"
 
 /*
 ** TODO: add material

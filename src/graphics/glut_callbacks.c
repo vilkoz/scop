@@ -6,13 +6,13 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 19:36:01 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/22 00:56:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 #include "object.h"
-#include "../matrix/matrix.h"
+#include "matrix.h"
 #include <math.h>
 
 static t_window		*g_win;
@@ -61,6 +61,11 @@ void				timer_function(int count)
 
 void				resize_function(int w, int h)
 {
+	t_matrix		projection;
+
+	projection = projection_matrix(45.0f, (float)w / (float)h, 0.1f, 100.0f);
+	glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE,
+			projection.m);
 	g_win->w = w;
 	g_win->h = h;
 	glViewport(0, 0, g_win->w, g_win->h);
@@ -71,7 +76,7 @@ void				resize_function(int w, int h)
 void				render_function(void)
 {
 	t_matrix		view;
-	t_matrix		projection;
+	/* t_matrix		projection; */
 	t_object		**tmp;
 	int				i;
 
@@ -80,11 +85,11 @@ void				render_function(void)
 	INIT_EYE(view);
 	translate_matrix(&view, -g_win->cam.pos.x, -g_win->cam.pos.y,
 			-g_win->cam.pos.z);
-	projection = projection_matrix(60.0f, (float)(W / H), 0.01f, 100.0f);
+	/* projection = projection_matrix(45.0f, (float)(W / H), 0.1f, 100.0f); */
 	glUseProgram(g_win->ids.program);
 	glUniformMatrix4fv(g_win->ids.view_uniform, 1, GL_FALSE, view.m);
-	glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE,
-			projection.m);
+	/* glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE, */
+	/* 		projection.m); */
 	i = -1;
 	while (++i < (int)g_win->obj->size)
 	{

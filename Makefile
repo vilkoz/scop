@@ -14,8 +14,8 @@ SRC=main.c							\
 	graphics/load_shaders.c			\
 	matrix/matrix_utils.c			\
 	matrix/special_matrices.c		\
+	vertex/vertex_math.c			\
 	object/object.c					\
-	#graphics/create_vbo.c			\
 
 BINDIR=bin
 
