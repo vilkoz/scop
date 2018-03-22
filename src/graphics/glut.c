@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 19:33:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/22 23:07:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void		set_glut_options(void)
 	glutTimerFunc(0, timer_function, 0);
 	glutCloseFunc(cleanup);
 	glutIdleFunc(idle_function);
+	glEnable(GL_DEPTH_TEST);
 }
 
 static void		init_window(t_window *win)

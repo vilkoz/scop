@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 00:41:39 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/22 00:57:13 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/23 00:11:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ t_vertex		vertex_new(float *a)
 
 t_vertex		vertex_sub(t_vertex v1, t_vertex v2)
 {
-	return (NEW_VERTEX(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z));
+	return (NEW_VERTEX(v1.x - v2.x,
+				v1.y - v2.y,
+				v1.z - v2.z));
 }
 
 t_vertex		vertex_norm(t_vertex v)

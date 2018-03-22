@@ -16,6 +16,7 @@ void	main(void)
 	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 	vec3 diffuse = diff * lightColor;
 	vec3 res = (ambient + diffuse) * objectColor;
-	/* FragColor = vec4(res, 1.0f); */
-	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	FragColor = vec4(res, 1.0f);
+	/* FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); */
+	/* FragColor = vec4(Normal, 1.0); */
 }
