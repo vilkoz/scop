@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 01:04:03 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 01:46:08 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void			object_draw(t_object *obj, t_window *win)
 	INIT_EYE(model);
 	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
 	rotate_matrix(&model, ((float)clock() / 1e6f) * 50.0f * (M_PI / 180.0f), 'y');
-	scale_matrix(&model, 0.2, 0.2, 0.2);
+	scale_matrix(&model, obj->scale, obj->scale, obj->scale);
 	/* rotate_matrix(&model, 180.0f * (M_PI / 180.0f), 'z'); */
 	glBindVertexArray(obj->ids.vao);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
@@ -118,6 +118,9 @@ void			object_draw(t_object *obj, t_window *win)
 		exit(-1);
 	}
 }
+
+# define MIN(a, b) (((a) < (b)) ? (a) : (b))
+# define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 void			obj_set_center(t_object *obj)
 {
@@ -140,12 +143,17 @@ void			obj_set_center(t_object *obj)
 		while (++j < 3)
 		{
 			VECTOR_GET_TO(tmp, obj->v, i * 3 + j);
-			edges[0][j] = edges[0][j] > *tmp ? *tmp : edges[0][j];
-			edges[1][j] = edges[1][j] < *tmp ? *tmp : edges[1][j];
+			edges[0][j] = MIN(edges[0][j], *tmp);
+			edges[1][j] = MAX(edges[1][j], *tmp);
 		}
 	}
 	obj->pos = NEW_VERTEX(-((edges[1][0] + edges[0][0]) / 2.0f),
 -((edges[1][1] + edges[0][1]) / 2.0f), -((edges[1][2] + edges[0][2]) / 2.0f));
+	float scale = 1.0f / (edges[1][0] - edges[0][0]);
+	scale = MIN(1.0f / (edges[1][1] - edges[0][1]), scale);
+	scale = MIN(1.0f / (edges[1][2] - edges[0][2]), scale);
+	obj->scale = scale;
+	printf("scale = %f\n", scale);
 }
 
 t_object		*new_object(t_parsed_object *p)

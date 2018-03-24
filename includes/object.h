@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 23:22:49 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 01:32:05 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_object
 	t_vector	*vn;
 	t_vector	*f;
 	t_vertex	pos;
+	float		scale;
 }				t_object;
 
 void			object_draw(t_object *obj, t_window *win);
