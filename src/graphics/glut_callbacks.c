@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 18:13:02 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 01:04:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void				keyboard_function(unsigned char key, int x, int y)
 {
 	(void)x;
 	(void)y;
-	printf("key = %d\n", key);
+	/* printf("key = %d\n", key); */
 	if (key == 'w')
 		g_win->cam.pos.z += -0.1;
 	else if (key == 's')
@@ -44,6 +44,11 @@ void				keyboard_function(unsigned char key, int x, int y)
 		g_win->cam.pos.y += -0.1;
 	else if (key == 'e')
 		g_win->cam.pos.y += 0.1;
+	else if (key == 'n')
+	{
+		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
+		printf("shading_type = %d\n", g_win->shading_type);
+	}
 }
 
 void				timer_function(int count)
@@ -80,7 +85,6 @@ void				resize_function(int w, int h)
 void				render_function(void)
 {
 	t_matrix		view;
-	/* t_matrix		projection; */
 	t_object		**tmp;
 	int				i;
 
@@ -89,11 +93,8 @@ void				render_function(void)
 	INIT_EYE(view);
 	translate_matrix(&view, -g_win->cam.pos.x, -g_win->cam.pos.y,
 			-g_win->cam.pos.z);
-	/* projection = projection_matrix(45.0f, (float)(W / H), 0.1f, 100.0f); */
 	glUseProgram(g_win->ids.program);
 	glUniformMatrix4fv(g_win->ids.view_uniform, 1, GL_FALSE, view.m);
-	/* glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE, */
-	/* 		projection.m); */
 	i = -1;
 	while (++i < (int)g_win->obj->size)
 	{

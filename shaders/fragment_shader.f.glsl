@@ -1,9 +1,10 @@
 #version 400
 
-in vec3 Normal;
-in vec3 FragPos;
+uniform int		shading;
+in vec3			Normal;
+in vec3			FragPos;
 
-out vec4 FragColor;
+out vec4		FragColor;
 
 void	main(void)
 {
@@ -16,7 +17,17 @@ void	main(void)
 	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 	vec3 diffuse = diff * lightColor;
 	vec3 res = (ambient + diffuse) * objectColor;
-	FragColor = vec4(res, 1.0f);
-	/* FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); */
-	/* FragColor = vec4(Normal, 1.0); */
+	if (shading == 0)
+	{
+		FragColor = vec4(res, 1.0f);
+	}
+	else if (shading == 1)
+	{
+		vec3 normal = vec3(abs(Normal.x), abs(Normal.y), abs(Normal.z));
+		FragColor = vec4(normal, 1.0);
+	}
+	else
+	{
+		FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f) * vec4(res, 1.0);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 14:29:42 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 17:17:17 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 01:23:33 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ enum						e_line_type{
 };
 
 static t_vector				*face_element_parser(char **lines, int *i,
-		char *prefix);
+				char *prefix, void *obj);
 struct s_parsed_object		*flatten_vectors(struct s_parsed_object *old);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 17:26:20 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 01:27:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char			*g_names[5] = {
 	NULL
 };
 
-static t_vector		*(*g_functions[5])(char **, int *, char *) = {
+static t_vector		*(*g_functions[5])(char **, int *, char *, void *) = {
 	face_element_parser,
 	face_element_parser,
 	face_element_parser,
@@ -41,7 +41,8 @@ static size_t		g_array_offsets[5] = {
 	0
 };
 
-static t_vector		*face_element_parser(char **lines, int *i, char *prefix)
+static t_vector		*face_element_parser(char **lines, int *i, char *prefix,
+		void *obj)
 {
 	t_vector	*vertices;
 	t_vertex	v;
@@ -50,7 +51,7 @@ static t_vector		*face_element_parser(char **lines, int *i, char *prefix)
 	ft_bzero((void*)&(format_line[0]), 20);
 	ft_strncat(&(format_line[0]), prefix, 20);
 	ft_strncat(&(format_line[0]), "%9f %9f %9f", 20);
-	vertices = vector_new(0, 0, sizeof(t_vertex));
+	vertices = obj ? (t_vector*)obj : vector_new(0, 0, sizeof(t_vertex));
 	while (lines[*i] && !ft_strncmp(lines[(*i)], prefix, ft_strlen(prefix)))
 	{
 		sscanf(lines[*i], &(format_line[0]), &(v.x), &(v.y), &(v.z));
@@ -67,8 +68,8 @@ static void			call_function_by_index(char **lines, int *i, int j,
 	t_vector			*tmp;
 	t_vector			**array_offset;
 
-	tmp = g_functions[j](lines, i, g_names[j]);
 	array_offset = (t_vector**)((char*)obj + g_array_offsets[j]);
+	tmp = g_functions[j](lines, i, g_names[j], (void*)*array_offset);
 	*array_offset = tmp;
 }
 
@@ -106,6 +107,9 @@ t_parsed_object		*obj_file_parser(char *filename)
 		return (NULL);
 	obj = obj_parser(buf);
 	printf("obj->v->size: %zu\n", obj->v->size);
+	/* printf("obj->vt->size: %zu\n", obj->vt->size); */
+	printf("obj->f->v->size: %zu\n", obj->f->v->size);
+	/* printf("obj->f->vt->size: %zu\n", obj->f->t->size); */
 	obj = flatten_vectors(obj);
 	printf("obj->v->size: %zu\n", obj->v->size);
 	if (obj->vn)

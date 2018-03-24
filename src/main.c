@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 17:43:18 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/24 19:21:47 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int				main(int ac, char **av)
 	/* win.obj = obj_file_parser(av[1]); */
 	fprintf(stderr, "start parsing\n");
 	win.obj = parse_objects(ac, av);
+	if (win.obj->size == 0)
+		return (0);
 	fprintf(stderr, "end parsing\n");
 	puts("glut not inited");
 	init_glut(ac, av, &win);

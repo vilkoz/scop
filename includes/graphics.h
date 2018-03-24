@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/24 17:00:11 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/24 23:28:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 # define VERTEX_SHADER_PATH "shaders/vertex_shader.v.glsl"
 # define FRAGMENT_SHADER_PATH "shaders/fragment_shader.f.glsl"
 
+typedef enum		e_shading_type
+{
+	PHONG_SHADING,
+	NORMAL_COLOR_SHADING,
+	TEXTURE_SHADING,
+	NUM_SHADING_TYPES
+}					t_shading_type;
+
 typedef struct		s_ids
 {
 	GLuint			vertex_shader;
@@ -38,6 +46,7 @@ typedef struct		s_ids
 	GLuint			model_uniform;
 	GLuint			view_uniform;
 	GLuint			projection_uniform;
+	GLuint			shading_uniform;
 }					t_ids;
 
 typedef struct		s_camera
@@ -56,6 +65,7 @@ typedef struct		s_window
 	/* t_parsed_object	*obj; */
 	t_camera		cam;
 	t_vector		*obj;
+	int				shading_type;
 }					t_window;
 
 void				init_glut(int ac, char **av, t_window *win);

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 02:01:31 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/24 23:28:04 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void		load_shaders(t_ids *ids)
 	ids->model_uniform = glGetUniformLocation(ids->program, "model");
 	ids->view_uniform = glGetUniformLocation(ids->program, "view");
 	ids->projection_uniform = glGetUniformLocation(ids->program, "projection");
+	ids->shading_uniform = glGetUniformLocation(ids->program, "shading");
 }
