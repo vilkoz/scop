@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/22 00:56:18 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/24 18:13:02 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void				keyboard_function(unsigned char key, int x, int y)
 		g_win->cam.pos.x += 0.1;
 	else if (key == 'd')
 		g_win->cam.pos.x += -0.1;
+	else if (key == 'q')
+		g_win->cam.pos.y += -0.1;
+	else if (key == 'e')
+		g_win->cam.pos.y += 0.1;
 }
 
 void				timer_function(int count)

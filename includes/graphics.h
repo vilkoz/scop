@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/22 01:06:33 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/24 17:00:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_ids
 	GLuint			vao;
 	GLuint			vbo;
 	GLuint			vno;
+	GLuint			vto;
 	GLuint			ebo;
 	GLuint			color_buffer;
 	GLuint			index_buffer;

@@ -9,6 +9,8 @@ all: $(NAME)
 SRC=main.c							\
 	parser/reader.c					\
 	parser/parser.c					\
+	parser/face_parser.c			\
+	parser/flatten_vectors.c		\
 	graphics/glut.c					\
 	graphics/glut_callbacks.c		\
 	graphics/load_shaders.c			\
