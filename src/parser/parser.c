@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 01:27:40 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/25 02:52:49 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ t_parsed_object		*obj_file_parser(char *filename)
 		return (NULL);
 	obj = obj_parser(buf);
 	printf("obj->v->size: %zu\n", obj->v->size);
-	/* printf("obj->vt->size: %zu\n", obj->vt->size); */
 	printf("obj->f->v->size: %zu\n", obj->f->v->size);
+	if (obj->vn)
+		printf("obj->vn->size: %zu\n", obj->vn->size);
+	/* printf("obj->vt->size: %zu\n", obj->vt->size); */
 	/* printf("obj->f->vt->size: %zu\n", obj->f->t->size); */
 	obj = flatten_vectors(obj);
 	printf("obj->v->size: %zu\n", obj->v->size);
