@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:09 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 14:08:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 16:19:13 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct		s_parsed_object
 	t_vector		*vn;
 	t_indexes		*f;
 	t_material		*mat;
+	char			*filename;
 }					t_parsed_object;
 
 t_parsed_object		*obj_file_parser(char *filename);

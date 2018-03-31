@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 14:09:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 16:10:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 16:44:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,38 @@ void			parse_material_file(t_material *m, char **lines)
 	}
 }
 
+char			*get_relative_path(char *obj_name, char *mtl_name)
+{
+	size_t		path_size;
+	char		*path;
+	char		*last_slash;
+
+	if ((last_slash = ft_strrchr(obj_name, '/')) == NULL)
+		return (ft_strdup(mtl_name));
+	path_size = last_slash - obj_name + 1;
+	path = ft_strnew(path_size + 256);
+	ft_strncpy(path, obj_name, path_size);
+	ft_strncat(path, mtl_name, path_size + 256);
+	return (path);
+}
+
 t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 {
 	t_material		*m;
 	char			*buf;
 	char			filename[256];
+	char			*relative_filename;
 
 	(void)prefix;
-	(void)obj;
 	m = ft_memalloc(sizeof(t_material));
 	ft_bzero((void*)&(filename[0]), 256);
 	sscanf(lines[*i],"mtllib %s",&(filename[0]));
+	relative_filename = get_relative_path(((t_parsed_object*)obj)->filename,
+			&(filename[0]));
 	(*i)++;
-	if ((buf = read_file_to_string(&(filename[0]))) == NULL)
+	buf = read_file_to_string(relative_filename);
+	ft_strdel(&relative_filename);
+	if (buf == NULL)
 	{
 		ft_memdel((void**)&m);
 		return (NULL);

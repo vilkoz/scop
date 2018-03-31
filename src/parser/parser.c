@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 14:08:24 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 16:43:43 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ static void			call_function_by_index(char **lines, int *i, int j,
 	t_vector			**array_offset;
 
 	array_offset = (t_vector**)((char*)obj + g_array_offsets[j]);
-	tmp = g_functions[j](lines, i, g_names[j], (void*)*array_offset);
+	tmp = g_functions[j](lines, i, g_names[j], j == 4 ? (void*)obj :
+			(void*)*array_offset);
 	*array_offset = tmp;
 }
 
-t_parsed_object		*obj_parser(char *file_contents)
+t_parsed_object		*obj_parser(char *file_contents, char *filename)
 {
 	char				**lines;
 	int					i;
@@ -84,6 +85,7 @@ t_parsed_object		*obj_parser(char *file_contents)
 	t_parsed_object		*obj;
 
 	obj = ft_memalloc(sizeof(t_parsed_object));
+	obj->filename = filename;
 	lines = ft_strsplit(file_contents, '\n');
 	i = 0;
 	while (lines[i])
@@ -108,7 +110,7 @@ t_parsed_object		*obj_file_parser(char *filename)
 
 	if ((buf = read_file_to_string(filename)) == NULL)
 		return (NULL);
-	obj = obj_parser(buf);
+	obj = obj_parser(buf, filename);
 	printf("obj->v->size: %zu\n", obj->v->size);
 	printf("obj->f->v->size: %zu\n", obj->f->v->size);
 	if (obj->vn)
