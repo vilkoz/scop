@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 14:09:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 16:44:11 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 21:38:58 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,11 @@ t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 		return (NULL);
 	}
 	parse_material_file(m, ft_strsplit(buf, '\n'));
+	puts("----------------------------------------------------------------");
+	printf("ka: %f %f %f\n", m->ka.x, m->ka.y, m->ka.z);
+	printf("kd: %f %f %f\n", m->ks.x, m->kd.y, m->kd.z);
+	printf("ks: %f %f %f\n", m->ks.x, m->ks.y, m->ks.z);
+	printf("ns: %f\n", m->ns);
+	puts("----------------------------------------------------------------");
 	return ((t_vector*)m);
 }

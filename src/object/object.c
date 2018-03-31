@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 18:26:45 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 22:50:22 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,27 @@ static void		object_create_vao(t_object *obj)
 	}
 }
 
+static void		set_material_uniforms(t_object *obj, t_window *win)
+{
+	t_vertex		v;
+
+	if (obj->m == NULL)
+	{
+		v = NEW_VERTEX(0.7, 0.7, 0.7);
+		glUniform3fv(win->ids.ka_uniform, 1, (void*)&(v));
+		v = NEW_VERTEX(0.7, 0.7, 0.7);
+		glUniform3fv(win->ids.kd_uniform, 1, (void*)&(v));
+		v = NEW_VERTEX(0.1, 0.1, 0.1);
+		glUniform3fv(win->ids.ks_uniform, 1, (void*)&(v));
+		glUniform1f(win->ids.ns_uniform, 2.0f);
+		return ;
+	}
+	glUniform3fv(win->ids.ka_uniform, 1, (void*)&(obj->m->ka));
+	glUniform3fv(win->ids.kd_uniform, 1, (void*)&(obj->m->kd));
+	glUniform3fv(win->ids.ks_uniform, 1, (void*)&(obj->m->ks));
+	glUniform1f(win->ids.ns_uniform, obj->m->ns);
+}
+
 void			object_draw(t_object *obj, t_window *win)
 {
 	t_matrix		model;
@@ -118,7 +139,7 @@ void			object_draw(t_object *obj, t_window *win)
 	glBindVertexArray(obj->ids.vao);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
 	glUniform1i(win->ids.shading_uniform, win->shading_type);
-	/* glDrawElements(GL_QUADS, obj->f->size, GL_UNSIGNED_INT, (GLvoid*)0); */
+	set_material_uniforms(obj, win);
 	glDrawArrays(GL_QUADS, 0, (GLsizei)obj->v->size);
 	glBindVertexArray(0);
 	GLenum ErrorCheckValue = glGetError();
@@ -182,6 +203,7 @@ t_object		*new_object(t_parsed_object *p)
 	t_object	*obj;
 
 	obj = ft_memalloc(sizeof(t_object));
+	obj->m = p->mat;
 	obj->v = p->v;
 	puts("start_generate");
 	if (p->vn && p->vn->size)

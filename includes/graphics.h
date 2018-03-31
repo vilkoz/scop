@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 17:40:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 21:25:46 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ typedef struct		s_ids
 	GLuint			projection_uniform;
 	GLuint			shading_uniform;
 	GLuint			tex;
+	GLuint			cam_pos_uniform;
+	GLuint			ka_uniform;
+	GLuint			kd_uniform;
+	GLuint			ks_uniform;
+	GLuint			ns_uniform;
 }					t_ids;
 
 typedef struct		s_camera

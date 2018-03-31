@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 01:04:31 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 21:12:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void				render_function(void)
 			-g_win->cam.pos.z);
 	glUseProgram(g_win->ids.program);
 	glUniformMatrix4fv(g_win->ids.view_uniform, 1, GL_FALSE, view.m);
+	glUniform3fv(g_win->ids.cam_pos_uniform, 1, (void*)&(g_win->cam.pos));
 	i = -1;
 	while (++i < (int)g_win->obj->size)
 	{

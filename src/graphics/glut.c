@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/22 23:07:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 21:06:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,4 @@ void			init_glut(int ac, char **av, t_window *win)
 		exit(-1);
 	}
 	load_shaders(&(win->ids));
-	/* create_vbo(win->obj, &(win->ids)); */
 }

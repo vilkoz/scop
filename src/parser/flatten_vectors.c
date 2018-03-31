@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 16:34:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 18:02:56 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 21:49:03 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_parsed_object	*flatten_vectors(t_parsed_object *old)
 	/* vector_delete(&(old->f->v), NULL); */
 	/* vector_delete(&(old->f->n), NULL); */
 	/* vector_delete(&(old->f->t), NULL); */
+	flat->mat = old->mat;
 	ft_memdel((void**)&(old->f));
 	ft_memdel((void**)&old);
 	return (flat);
