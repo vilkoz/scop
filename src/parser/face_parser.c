@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 14:24:52 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 01:26:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 23:50:10 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,5 @@ t_vector				*face_parser(char **lines, int *i, char *prefix,
 		parse_face_line(lines[*i], indexes);
 		++(*i);
 	}
-	/* vector_set_ready(indexes->v); */
-	/* vector_set_ready(indexes->t); */
-	/* vector_set_ready(indexes->n); */
 	return ((t_vector*)indexes);
 }

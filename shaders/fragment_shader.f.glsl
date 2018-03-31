@@ -33,7 +33,7 @@ void	main(void)
 	vec3 specular;
 	if (specular_factor < 0)
 	{
-		specular_factor = pow(abs(specular_factor), ns);
+		specular_factor = pow(abs(specular_factor), 50.f);
 		specular = ks * specular_factor;
 	}
 	else

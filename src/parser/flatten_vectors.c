@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 16:34:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 21:49:03 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 23:56:52 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static t_vector	*flat_vector_with_indices(t_vector *v, t_vector *indices,
 		if (type != TYPE_TEXTURE)
 			VECTOR_ADD(out, &(tmp->z));
 	}
-	vector_delete(&v, NULL);
-	vector_delete(&indices, NULL);
 	return (out);
 }
 
@@ -52,12 +50,12 @@ t_parsed_object	*flatten_vectors(t_parsed_object *old)
 	puts("start textures");
 	if (old->vt && old->vt->size)
 		flat->vt = flat_vector_with_indices(old->vt, old->f->t, TYPE_TEXTURE);
-	/* vector_delete(&(old->v), NULL); */
-	/* vector_delete(&(old->vn), NULL); */
-	/* vector_delete(&(old->vt), NULL); */
-	/* vector_delete(&(old->f->v), NULL); */
-	/* vector_delete(&(old->f->n), NULL); */
-	/* vector_delete(&(old->f->t), NULL); */
+	vector_delete(&(old->v), NULL);
+	vector_delete(&(old->vn), NULL);
+	vector_delete(&(old->vt), NULL);
+	vector_delete(&(old->f->v), NULL);
+	vector_delete(&(old->f->n), NULL);
+	vector_delete(&(old->f->t), NULL);
 	flat->mat = old->mat;
 	ft_memdel((void**)&(old->f));
 	ft_memdel((void**)&old);

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 14:09:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 21:38:58 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 23:40:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void			parse_material_file(t_material *m, char **lines)
 				use_callback(m, lines[i], j);
 		}
 	}
+	ft_del_string_array(lines);
 }
 
 char			*get_relative_path(char *obj_name, char *mtl_name)
@@ -144,5 +145,6 @@ t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 	printf("ks: %f %f %f\n", m->ks.x, m->ks.y, m->ks.z);
 	printf("ns: %f\n", m->ns);
 	puts("----------------------------------------------------------------");
+	ft_strdel(&buf);
 	return ((t_vector*)m);
 }
