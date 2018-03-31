@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object.h                                           :+:      :+:    :+:   */
+/*   flatten_vectors_private.h                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 17:45:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 17:41:48 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/03/31 18:00:17 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/03/31 18:01:36 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBJECT_H
-# define OBJECT_H
+#ifndef FLATTEN_VECTORS_PRIVATE_H
+# define FLATTEN_VECTORS_PRIVATE_H
 
-# include "graphics.h"
-# include "libft.h"
-# include "bmp_loader/bmp_loader.h"
-
-typedef struct	s_object
+typedef enum	e_vertex_type
 {
-	t_ids		ids;
-	t_vector	*v;
-	t_vector	*vt;
-	t_vector	*vn;
-	t_vector	*f;
-	t_vertex	pos;
-	float		scale;
-	t_bmp_data	*bmp;
-}				t_object;
-
-void			object_draw(t_object *obj, t_window *win);
-t_object		*new_object(t_parsed_object *p);
+	TYPE_VERTEX,
+	TYPE_NORMAL,
+	TYPE_TEXTURE
+}				t_vertex_type;
 
 #endif

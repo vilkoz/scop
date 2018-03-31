@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object.h                                           :+:      :+:    :+:   */
+/*   bmp_loader.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 17:45:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 17:41:48 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/03/31 17:12:07 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/03/31 18:04:45 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBJECT_H
-# define OBJECT_H
+#ifndef BMP_LOADER_H
+# define BMP_LOADER_H
 
-# include "graphics.h"
-# include "libft.h"
-# include "bmp_loader/bmp_loader.h"
+typedef unsigned char		uchar;
+typedef unsigned int		uint;
 
-typedef struct	s_object
+typedef struct		s_bmp_data
 {
-	t_ids		ids;
-	t_vector	*v;
-	t_vector	*vt;
-	t_vector	*vn;
-	t_vector	*f;
-	t_vertex	pos;
-	float		scale;
-	t_bmp_data	*bmp;
-}				t_object;
+	uchar			header[54];
+	uint			w;
+	uint			h;
+	uint			image_size;
+	uchar			*data;
+	uint			data_pos;
+}					t_bmp_data;
 
-void			object_draw(t_object *obj, t_window *win);
-t_object		*new_object(t_parsed_object *p);
+void				*bmp_loader(char *path);
 
 #endif

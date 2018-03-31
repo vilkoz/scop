@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 01:46:08 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 18:26:45 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "matrix.h"
 #include <math.h>
 #include <time.h>
+#include "bmp_loader/bmp_loader.h"
 
 t_vertex		gen_vn(t_object *obj, int v_index)
 {
@@ -33,7 +34,7 @@ t_vertex		gen_vn(t_object *obj, int v_index)
 		}
 	}
 	return (vertex_norm(vertex_cross(vertex_sub(vertex_new(&(v[1][0])),
-		vertex_new(&(v[0][0]))),vertex_sub(vertex_new(&(v[2][0])),
+		vertex_new(&(v[0][0]))), vertex_sub(vertex_new(&(v[2][0])),
 		vertex_new(&(v[1][0]))))));
 }
 
@@ -83,6 +84,16 @@ static void		object_create_vao(t_object *obj)
 				(float*)obj->vn->elems, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 		glEnableVertexAttribArray(1);
+	}
+
+	if (obj->vt)
+	{
+		glGenBuffers(1, &(obj->ids.vto));
+		glBindBuffer(GL_ARRAY_BUFFER, obj->ids.vto);
+		glBufferData(GL_ARRAY_BUFFER, obj->vt->size * obj->vt->elem_size,
+				(float*)obj->vt->elems, GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+		glEnableVertexAttribArray(2);
 	}
 
 	glBindVertexArray(0);
@@ -156,6 +167,16 @@ void			obj_set_center(t_object *obj)
 	printf("scale = %f\n", scale);
 }
 
+void			init_texture(t_object *obj)
+{
+	glGenTextures(1, &(obj->ids.tex));
+	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
+	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, obj->bmp->w, obj->bmp->h, 0, GL_BGR,
+			GL_UNSIGNED_BYTE, obj->bmp->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
+
 t_object		*new_object(t_parsed_object *p)
 {
 	t_object	*obj;
@@ -174,6 +195,8 @@ t_object		*new_object(t_parsed_object *p)
 	/* obj->v = join_vertices(obj); */
 	obj_set_center(obj);
 	object_create_vao(obj);
+	obj->bmp = bmp_loader("res/sparcs.bmp");
+	init_texture(obj);
 	puts("object_create_vao");
 	return (obj);
 }

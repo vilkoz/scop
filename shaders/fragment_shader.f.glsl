@@ -1,10 +1,13 @@
 #version 400
 
-uniform int		shading;
-in vec3			Normal;
-in vec3			FragPos;
+in vec2					UV;
+uniform sampler2D		textureSampler;
 
-out vec4		FragColor;
+uniform int				shading;
+in vec3					Normal;
+in vec3					FragPos;
+
+out vec4				FragColor;
 
 void	main(void)
 {
@@ -28,6 +31,7 @@ void	main(void)
 	}
 	else
 	{
-		FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f) * vec4(res, 1.0);
+		//FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f) * vec4(res, 1.0);
+		FragColor = texture(textureSampler, UV) * vec4(res, 1.0);
 	}
 }

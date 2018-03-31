@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 16:43:43 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 18:10:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,16 +111,24 @@ t_parsed_object		*obj_file_parser(char *filename)
 	if ((buf = read_file_to_string(filename)) == NULL)
 		return (NULL);
 	obj = obj_parser(buf, filename);
+
 	printf("obj->v->size: %zu\n", obj->v->size);
 	printf("obj->f->v->size: %zu\n", obj->f->v->size);
 	if (obj->vn)
 		printf("obj->vn->size: %zu\n", obj->vn->size);
-	/* printf("obj->vt->size: %zu\n", obj->vt->size); */
-	/* printf("obj->f->vt->size: %zu\n", obj->f->t->size); */
+	if (obj->vt)
+		printf("obj->vt->size: %zu\n", obj->vt->size);
+	if (obj->f->t)
+		printf("obj->f->vt->size: %zu\n", obj->f->t->size);
+
 	obj = flatten_vectors(obj);
+
 	printf("obj->v->size: %zu\n", obj->v->size);
 	if (obj->vn)
 		printf("obj->vn->size: %zu\n", obj->vn->size);
+	if (obj->vt)
+		printf("obj->vt->size: %zu\n", obj->vt->size);
+
 	ft_memdel((void**)&buf);
 	return (obj);
 }

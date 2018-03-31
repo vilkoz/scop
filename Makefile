@@ -12,6 +12,7 @@ SRC=main.c							\
 	parser/face_parser.c			\
 	parser/flatten_vectors.c		\
 	parser/material_parser.c		\
+	bmp_loader/bmp_loader.c			\
 	graphics/glut.c					\
 	graphics/glut_callbacks.c		\
 	graphics/load_shaders.c			\
