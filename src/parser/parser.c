@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/25 02:52:49 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/03/31 14:08:24 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,30 @@
 #include "parser/parser.h"
 #include "parser_private.h"
 
-static char			*g_names[5] = {
+static char			*g_names[6] = {
 	"v ",
 	"vt ",
 	"vn ",
 	"f ",
+	"mtllib ",
 	NULL
 };
 
-static t_vector		*(*g_functions[5])(char **, int *, char *, void *) = {
+static t_vector		*(*g_functions[6])(char **, int *, char *, void *) = {
 	face_element_parser,
 	face_element_parser,
 	face_element_parser,
 	face_parser,
+	material_parser,
 	NULL
 };
 
-static size_t		g_array_offsets[5] = {
+static size_t		g_array_offsets[6] = {
 	offsetof(struct s_parsed_object, v),
 	offsetof(struct s_parsed_object, vt),
 	offsetof(struct s_parsed_object, vn),
 	offsetof(struct s_parsed_object, f),
+	offsetof(struct s_parsed_object, mat),
 	0
 };
 

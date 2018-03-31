@@ -8,7 +8,7 @@ out vec4		FragColor;
 
 void	main(void)
 {
-	vec3 objectColor = vec3(1.0f, 0.5f, 0.2f);
+	vec3 objectColor = vec3(0.7f, 0.7f, 0.7f);
 	vec3 ambient = 0.2 * objectColor;
 	vec3 lightPos = vec3(100.0f, 100.0f, 100.0f);
 	vec3 norm = normalize(Normal);
