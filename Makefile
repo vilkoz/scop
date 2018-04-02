@@ -2,7 +2,8 @@ NAME=scop
 
 VPATH=src
 
-FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lglut -lm -g
+#FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lglut -lm -g
+FLAGS=-Wall -Wextra -Werror -I libft -I includes -lGL -lGLU -lGLEW -lSDL2 -lm -g
 
 all: $(NAME)
 
@@ -16,6 +17,7 @@ SRC=main.c							\
 	graphics/glut.c					\
 	graphics/glut_callbacks.c		\
 	graphics/load_shaders.c			\
+	graphics/sdl_main_loop.c		\
 	matrix/matrix_utils.c			\
 	matrix/special_matrices.c		\
 	vertex/vertex_math.c			\

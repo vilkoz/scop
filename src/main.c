@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 23:59:59 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/02 23:34:25 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int				main(int ac, char **av)
 	fprintf(stderr, "glut inited\n");
 	win.obj = init_objects(win.obj);
 	fprintf(stderr, "objs inited\n");
-	glutMainLoop();
+	/* glutMainLoop(); */
+	sdl_main_loop(&win);
 }

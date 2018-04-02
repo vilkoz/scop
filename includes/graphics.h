@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 21:25:46 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/02 23:33:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define GRAPHICS_H
 
 # include <GL/glew.h>
-# include <GL/freeglut.h>
+/* # include <GL/freeglut.h> */
+# include <SDL2/SDL.h>
 # include <stdio.h>
 # include "parser/parser.h"
 
@@ -22,6 +23,7 @@
 # define H 600
 # define VERTEX_SHADER_PATH "shaders/vertex_shader.v.glsl"
 # define FRAGMENT_SHADER_PATH "shaders/fragment_shader.f.glsl"
+# define WINDOW_NAME "SCOP by vrybalko"
 
 typedef enum		e_shading_type
 {
@@ -60,15 +62,24 @@ typedef struct		s_camera
 	t_vertex		pos;
 }					t_camera;
 
+typedef struct		s_sdl_callbacks
+{
+	void			(*render)(void);
+	void			(*resize)(int w, int h);
+	void			(*keyboard)(unsigned char key, int x, int y);
+	void			(*cleanup)(void *win);
+}					t_sdl_callbacks;
+
 typedef struct		s_window
 {
 	int				w;
 	int				h;
-	int				handle;
+	SDL_Window		*handle;
+	SDL_GLContext	context;
+	t_sdl_callbacks	callbacks;
 	char			*title;
 	unsigned		frames;
 	t_ids			ids;
-	/* t_parsed_object	*obj; */
 	t_camera		cam;
 	t_vector		*obj;
 	int				shading_type;
@@ -77,5 +88,6 @@ typedef struct		s_window
 void				init_glut(int ac, char **av, t_window *win);
 void				create_vbo(t_parsed_object *obj, t_ids *ids);
 void				load_shaders(t_ids *ids);
+void				sdl_main_loop(t_window *win);
 
 #endif

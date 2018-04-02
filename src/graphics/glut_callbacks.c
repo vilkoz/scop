@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 21:12:18 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/02 23:46:00 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,51 +22,51 @@ void				set_window_callback_handle(t_window *win)
 	g_win = win;
 }
 
-void				idle_function(void)
-{
-	glutPostRedisplay();
-}
+/* void				idle_function(void) */
+/* { */
+/* 	glutPostRedisplay(); */
+/* } */
 
 void				keyboard_function(unsigned char key, int x, int y)
 {
 	(void)x;
 	(void)y;
 	/* printf("key = %d\n", key); */
-	if (key == 'w')
+	if (key == SDLK_w)
 		g_win->cam.pos.z += -0.1;
-	else if (key == 's')
+	else if (key == SDLK_s)
 		g_win->cam.pos.z += +0.1;
-	else if (key == 'a')
+	else if (key == SDLK_a)
 		g_win->cam.pos.x += 0.1;
-	else if (key == 'd')
+	else if (key == SDLK_d)
 		g_win->cam.pos.x += -0.1;
-	else if (key == 'q')
+	else if (key == SDLK_q)
 		g_win->cam.pos.y += -0.1;
-	else if (key == 'e')
+	else if (key == SDLK_e)
 		g_win->cam.pos.y += 0.1;
-	else if (key == 'n')
+	else if (key == SDLK_n)
 	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
 		printf("shading_type = %d\n", g_win->shading_type);
 	}
 }
 
-void				timer_function(int count)
-{
-	char	*title_string;
+/* void				timer_function(int count) */
+/* { */
+/* 	char	*title_string; */
 
-	if (count == 0)
-	{
-		g_win->frames = 0;
-		return ;
-	}
-	title_string = (char*)malloc(sizeof(char) * (512 + strlen(g_win->title)));
-	sprintf(title_string, "%s: %d fps @ %d x %d", g_win->title, g_win->frames * 4, g_win->w, g_win->h);
-	glutSetWindowTitle(title_string);
-	free(title_string);
-	g_win->frames = 0;
-	glutTimerFunc(250, timer_function, 1);
-}
+/* 	if (count == 0) */
+/* 	{ */
+/* 		g_win->frames = 0; */
+/* 		return ; */
+/* 	} */
+/* 	title_string = (char*)malloc(sizeof(char) * (512 + strlen(g_win->title))); */
+/* 	sprintf(title_string, "%s: %d fps @ %d x %d", g_win->title, g_win->frames * 4, g_win->w, g_win->h); */
+/* 	glutSetWindowTitle(title_string); */
+/* 	free(title_string); */
+/* 	g_win->frames = 0; */
+/* 	glutTimerFunc(250, timer_function, 1); */
+/* } */
 
 void				resize_function(int w, int h)
 {
@@ -79,7 +79,7 @@ void				resize_function(int w, int h)
 	g_win->h = h;
 	glViewport(0, 0, g_win->w, g_win->h);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glutSwapBuffers();
+	SDL_GL_SwapWindow(g_win->handle);
 }
 
 void				render_function(void)
@@ -102,6 +102,5 @@ void				render_function(void)
 		VECTOR_GET_TO(tmp, g_win->obj, i);
 		object_draw(*tmp, g_win);
 	}
-	glutSwapBuffers();
-	glutPostRedisplay();
+	SDL_GL_SwapWindow(g_win->handle);
 }
