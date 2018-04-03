@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 21:19:10 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 09:26:00 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,52 +20,34 @@ typedef enum	e_shader_compile_error
 	PROGRAM_COMPILE_ERROR
 }				e_shader_error;
 
-void			check_error(GLuint shaderId, unsigned LINE, e_shader_error type)
+static void		check_gl_error(GLuint shaderId, unsigned LINE,
+					e_shader_error type)
 {
-	GLint bCompiled;
+	GLint		ret_status;
+	GLint		length;
+	GLchar		*pInfo;
 
+	ret_status = 0;
 	if (type == SHADER_COMPILE_ERROR)
-		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &bCompiled);
+		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &ret_status);
 	else if (type == PROGRAM_COMPILE_ERROR)
-		glGetProgramiv(shaderId, GL_LINK_STATUS, &bCompiled);
-	if(bCompiled == 0)
+		glGetProgramiv(shaderId, GL_LINK_STATUS, &ret_status);
+	if(ret_status == 0)
 	{
-		GLint length;
 		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
-		GLchar *pInfo = (GLchar*)malloc(sizeof(GLchar) * (length + 1));
+		pInfo = (GLchar*)ft_strnew(length);
 		if (type == SHADER_COMPILE_ERROR)
 			glGetShaderInfoLog(shaderId, length, &length, pInfo);
 		else if (type == PROGRAM_COMPILE_ERROR)
 			glGetProgramInfoLog(shaderId, length, &length, pInfo);
-		fprintf(stderr, "called at line-%u: Compiler/Linker error: %s", LINE, pInfo);
-		free(pInfo);
+		fprintf(stderr, "called at line-%u: Compiler/Linker error: %s", LINE,
+				pInfo);
+		ft_memdel((void**)&pInfo);
 	}
 }
 
-void		load_shaders(t_ids *ids)
+static void		get_uniforms_ids(t_ids *ids)
 {
-	char	*buf;
-
-	ids->vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	buf = read_file_to_string(VERTEX_SHADER_PATH);
-	glShaderSource(ids->vertex_shader, 1, (const char*const*)&buf, NULL);
-	glCompileShader(ids->vertex_shader);
-	check_error(ids->vertex_shader, __LINE__, SHADER_COMPILE_ERROR);
-	ft_memdel((void*)&buf);
-	ids->fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	buf = read_file_to_string(FRAGMENT_SHADER_PATH);
-	glShaderSource(ids->fragment_shader, 1, (const char*const*)&buf, NULL);
-	glCompileShader(ids->fragment_shader);
-	check_error(ids->fragment_shader, __LINE__, SHADER_COMPILE_ERROR);
-	ft_memdel((void*)&buf);
-	ids->program = glCreateProgram();
-	glAttachShader(ids->program, ids->vertex_shader);
-	glAttachShader(ids->program, ids->fragment_shader);
-	glLinkProgram(ids->program);
-	check_error(ids->program, __LINE__, PROGRAM_COMPILE_ERROR);
-	glUseProgram(ids->program);
-	glDeleteShader(ids->vertex_shader);
-	glDeleteShader(ids->fragment_shader);
 	ids->model_uniform = glGetUniformLocation(ids->program, "model");
 	ids->view_uniform = glGetUniformLocation(ids->program, "view");
 	ids->projection_uniform = glGetUniformLocation(ids->program, "projection");
@@ -75,4 +57,34 @@ void		load_shaders(t_ids *ids)
 	ids->kd_uniform = glGetUniformLocation(ids->program, "kd");
 	ids->ks_uniform = glGetUniformLocation(ids->program, "ks");
 	ids->ns_uniform = glGetUniformLocation(ids->program, "ns");
+}
+
+static void		compile_shader_from_file(GLuint *id, GLenum shader_type,
+					char *filepath)
+{
+	char	*buf;
+
+	*id = glCreateShader(shader_type);
+	buf = read_file_to_string(filepath);
+	glShaderSource(*id, 1, (const char*const*)&buf, NULL);
+	glCompileShader(*id);
+	check_gl_error(*id, __LINE__, SHADER_COMPILE_ERROR);
+	ft_strdel(&buf);
+}
+
+void			load_shaders(t_ids *ids)
+{
+	compile_shader_from_file(&(ids->vertex_shader), GL_VERTEX_SHADER,
+			VERTEX_SHADER_PATH);
+	compile_shader_from_file(&(ids->fragment_shader), GL_FRAGMENT_SHADER,
+			FRAGMENT_SHADER_PATH);
+	ids->program = glCreateProgram();
+	glAttachShader(ids->program, ids->vertex_shader);
+	glAttachShader(ids->program, ids->fragment_shader);
+	glLinkProgram(ids->program);
+	check_gl_error(ids->program, __LINE__, PROGRAM_COMPILE_ERROR);
+	glUseProgram(ids->program);
+	glDeleteShader(ids->vertex_shader);
+	glDeleteShader(ids->fragment_shader);
+	get_uniforms_ids(ids);
 }

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/02 23:19:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/02 23:31:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 09:09:14 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void			sdl_main_loop(t_window *win)
 	{
 		while (SDL_PollEvent(&e) != 0)
 		{
-			if (e.type == SDL_QUIT)
+			if ((e.type == SDL_QUIT)
+				|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
 				running = 0;
 			else if (e.type == SDL_KEYDOWN)
 				win->callbacks.keyboard(e.key.keysym.sym, 0, 0);
@@ -31,6 +32,7 @@ void			sdl_main_loop(t_window *win)
 				|| e.window.event == SDL_WINDOWEVENT_RESIZED))
 				win->callbacks.resize(e.window.data1, e.window.data2);
 		}
+		win->callbacks.timer();
 		win->callbacks.render();
 	}
 	win->callbacks.cleanup(win);

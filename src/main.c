@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/02 23:34:25 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 08:30:34 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,15 @@ int				main(int ac, char **av)
 		exit(1);
 	}
 	ft_bzero((void*)&win, sizeof(win));
-	/* win.obj = obj_file_parser(av[1]); */
 	fprintf(stderr, "start parsing\n");
 	win.obj = parse_objects(ac, av);
 	if (win.obj->size == 0)
 		return (0);
 	fprintf(stderr, "end parsing\n");
 	puts("glut not inited");
-	init_glut(ac, av, &win);
+	init_sdl(ac, av, &win);
 	fprintf(stderr, "glut inited\n");
 	win.obj = init_objects(win.obj);
 	fprintf(stderr, "objs inited\n");
-	/* glutMainLoop(); */
 	sdl_main_loop(&win);
 }

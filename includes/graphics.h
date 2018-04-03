@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/02 23:33:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 08:39:53 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GRAPHICS_H
 
 # include <GL/glew.h>
-/* # include <GL/freeglut.h> */
 # include <SDL2/SDL.h>
 # include <stdio.h>
 # include "parser/parser.h"
@@ -65,6 +64,7 @@ typedef struct		s_camera
 typedef struct		s_sdl_callbacks
 {
 	void			(*render)(void);
+	void			(*timer)(void);
 	void			(*resize)(int w, int h);
 	void			(*keyboard)(unsigned char key, int x, int y);
 	void			(*cleanup)(void *win);
@@ -79,13 +79,14 @@ typedef struct		s_window
 	t_sdl_callbacks	callbacks;
 	char			*title;
 	unsigned		frames;
+	float			speed_multiplier;
 	t_ids			ids;
 	t_camera		cam;
 	t_vector		*obj;
 	int				shading_type;
 }					t_window;
 
-void				init_glut(int ac, char **av, t_window *win);
+void				init_sdl(int ac, char **av, t_window *win);
 void				create_vbo(t_parsed_object *obj, t_ids *ids);
 void				load_shaders(t_ids *ids);
 void				sdl_main_loop(t_window *win);

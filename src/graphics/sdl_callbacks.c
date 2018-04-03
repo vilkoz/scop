@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glut_callbacks.c                                   :+:      :+:    :+:   */
+/*   sdl_callbacks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/02 23:46:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 08:38:20 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "object.h"
 #include "matrix.h"
 #include <math.h>
+#include <time.h>
 
 static t_window		*g_win;
 
@@ -21,11 +22,6 @@ void				set_window_callback_handle(t_window *win)
 {
 	g_win = win;
 }
-
-/* void				idle_function(void) */
-/* { */
-/* 	glutPostRedisplay(); */
-/* } */
 
 void				keyboard_function(unsigned char key, int x, int y)
 {
@@ -51,22 +47,15 @@ void				keyboard_function(unsigned char key, int x, int y)
 	}
 }
 
-/* void				timer_function(int count) */
-/* { */
-/* 	char	*title_string; */
+void				timer_function()
+{
+	clock_t		current_clock;
 
-/* 	if (count == 0) */
-/* 	{ */
-/* 		g_win->frames = 0; */
-/* 		return ; */
-/* 	} */
-/* 	title_string = (char*)malloc(sizeof(char) * (512 + strlen(g_win->title))); */
-/* 	sprintf(title_string, "%s: %d fps @ %d x %d", g_win->title, g_win->frames * 4, g_win->w, g_win->h); */
-/* 	glutSetWindowTitle(title_string); */
-/* 	free(title_string); */
-/* 	g_win->frames = 0; */
-/* 	glutTimerFunc(250, timer_function, 1); */
-/* } */
+	current_clock = clock();
+	g_win->speed_multiplier = (float)(current_clock - g_win->frames) /
+		(float)CLOCKS_PER_SEC;
+	g_win->frames = current_clock;
+}
 
 void				resize_function(int w, int h)
 {

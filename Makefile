@@ -14,8 +14,8 @@ SRC=main.c							\
 	parser/flatten_vectors.c		\
 	parser/material_parser.c		\
 	bmp_loader/bmp_loader.c			\
-	graphics/glut.c					\
-	graphics/glut_callbacks.c		\
+	graphics/sdl_init.c				\
+	graphics/sdl_callbacks.c		\
 	graphics/load_shaders.c			\
 	graphics/sdl_main_loop.c		\
 	matrix/matrix_utils.c			\

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glut.c                                             :+:      :+:    :+:   */
+/*   sdl_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/20 18:05:08 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/02 23:39:57 by vrybalko         ###   ########.fr       */
+/*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
+/*   Updated: 2018/04/03 09:06:42 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
-#include "glut_callbacks.h"
+#include "sdl_callbacks.h"
 #include <assert.h>
 
 static void		cleanup(t_window *win)
@@ -23,24 +23,13 @@ static void		cleanup(t_window *win)
 
 static void		set_glut_options(t_window *win)
 {
-	/* glutInitContextVersion(4, 0); */
-	/* glutInitContextFlags(GLUT_FORWARD_COMPATIBLE); */
-	/* glutInitContextProfile(GLUT_CORE_PROFILE); */
-	/* glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS); */
-	/* glutReshapeFunc(resize_function); */
-	/* glutDisplayFunc(render_function); */
-	/* glutKeyboardFunc(keyboard_function); */
-	/* glutTimerFunc(0, timer_function, 0); */
-	/* glutCloseFunc(cleanup); */
-	/* glutIdleFunc(idle_function); */
-
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
 			SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetSwapInterval(1);
 	win->callbacks.render = render_function;
+	win->callbacks.timer = timer_function;
 	win->callbacks.resize = resize_function;
 	win->callbacks.keyboard = keyboard_function;
 	win->callbacks.cleanup = (void (*)(void*))cleanup;
@@ -57,13 +46,6 @@ static void		set_glut_options(t_window *win)
 
 static void		init_window(t_window *win)
 {
-	/* glutInitWindowSize(W, H); */
-	/* glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA); */
-	/* if ((win->handle = glutCreateWindow("HELLLO")) < 1) */
-	/* { */
-	/* 	fprintf(stderr, "ERROR! COULD NOT CREATE WINDOW!\n"); */
-	/* 	exit(1); */
-	/* } */
 	assert(SDL_Init(SDL_INIT_VIDEO) == 0);
 	win->handle = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_OPENGL);
@@ -81,7 +63,7 @@ static void		init_camera(t_camera *cam)
 	cam->pos.z = 2;
 }
 
-void			init_glut(int ac, char **av, t_window *win)
+void			init_sdl(int ac, char **av, t_window *win)
 {
 	GLenum		err;
 

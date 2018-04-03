@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 23:26:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 09:33:54 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,33 @@ t_vector		*generate_vn_array(t_object *obj)
 			VECTOR_ADD(v, &(tmp.z));
 		}
 		i += 12;
+	}
+	return (v);
+}
+
+t_vector		*generate_vt_array(t_object *obj)
+{
+	t_vector	*v;
+	t_vertex	tmp;
+	int			i;
+
+	v = vector_new(0, 0, sizeof(float));
+	i = 0;
+	while (i < (int)obj->v->size)
+	{
+		tmp = NEW_VERTEX(0, 0, 0);
+		VECTOR_ADD(v, &(tmp.x));
+		VECTOR_ADD(v, &(tmp.y));
+		tmp = NEW_VERTEX(0, 1, 0);
+		VECTOR_ADD(v, &(tmp.x));
+		VECTOR_ADD(v, &(tmp.y));
+		tmp = NEW_VERTEX(1, 1, 0);
+		VECTOR_ADD(v, &(tmp.x));
+		VECTOR_ADD(v, &(tmp.y));
+		tmp = NEW_VERTEX(0, 0, 0);
+		VECTOR_ADD(v, &(tmp.x));
+		VECTOR_ADD(v, &(tmp.y));
+		i += 8;
 	}
 	return (v);
 }
@@ -130,10 +157,15 @@ static void		set_material_uniforms(t_object *obj, t_window *win)
 void			object_draw(t_object *obj, t_window *win)
 {
 	t_matrix		model;
+	GLenum			error_check_value;
 
 	INIT_EYE(model);
 	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
-	rotate_matrix(&model, ((float)clock() / 1e6f) * 50.0f * (M_PI / 180.0f), 'y');
+	/*             angles  fps                fps     */
+	obj->angle += (30.0f / 60.0f) * ((1.0f / 60.0f) / win->speed_multiplier);
+	if (obj->angle >= 360.0f)
+		obj->angle -= 360.0f;
+	rotate_matrix(&model, obj->angle * (M_PI / 180.0f), 'y');
 	scale_matrix(&model, obj->scale, obj->scale, obj->scale);
 	/* rotate_matrix(&model, 180.0f * (M_PI / 180.0f), 'z'); */
 	glBindVertexArray(obj->ids.vao);
@@ -142,11 +174,11 @@ void			object_draw(t_object *obj, t_window *win)
 	set_material_uniforms(obj, win);
 	glDrawArrays(GL_QUADS, 0, (GLsizei)obj->v->size);
 	glBindVertexArray(0);
-	GLenum ErrorCheckValue = glGetError();
-	if (ErrorCheckValue != GL_NO_ERROR)
+	error_check_value = glGetError();
+	if (error_check_value != GL_NO_ERROR)
 	{
 		fprintf(stderr,"ERROR: Could not create a VBO: %s \n",
-				gluErrorString(ErrorCheckValue));
+				gluErrorString(error_check_value));
 		exit(-1);
 	}
 }
@@ -154,7 +186,7 @@ void			object_draw(t_object *obj, t_window *win)
 # define MIN(a, b) (((a) < (b)) ? (a) : (b))
 # define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
-void			obj_set_center(t_object *obj)
+void			obj_find_min_max(t_object *obj)
 {
 	float		edges[2][3];
 	float		*tmp;
@@ -179,11 +211,19 @@ void			obj_set_center(t_object *obj)
 			edges[1][j] = MAX(edges[1][j], *tmp);
 		}
 	}
-	obj->pos = NEW_VERTEX(-((edges[1][0] + edges[0][0]) / 2.0f),
--((edges[1][1] + edges[0][1]) / 2.0f), -((edges[1][2] + edges[0][2]) / 2.0f));
-	float scale = 1.0f / (edges[1][0] - edges[0][0]);
-	scale = MIN(1.0f / (edges[1][1] - edges[0][1]), scale);
-	scale = MIN(1.0f / (edges[1][2] - edges[0][2]), scale);
+	obj->min = vertex_new(&(edges[0][0]));
+	obj->max = vertex_new(&(edges[1][0]));
+}
+
+void			obj_set_center(t_object *obj)
+{
+	float	scale;
+	obj->pos = NEW_VERTEX(-((obj->max.x + obj->min.x) / 2.0f),
+		-((obj->max.y + obj->min.y) / 2.0f),
+		-((obj->max.z + obj->min.z) / 2.0f));
+	scale = 1.0f / (obj->max.x - obj->min.x);
+	scale = MIN(1.0f / (obj->max.y - obj->min.y), scale);
+	scale = MIN(1.0f / (obj->max.z - obj->min.z), scale);
 	obj->scale = scale;
 	printf("scale = %f\n", scale);
 }
@@ -205,6 +245,7 @@ t_object		*new_object(t_parsed_object *p)
 	obj = ft_memalloc(sizeof(t_object));
 	obj->m = p->mat;
 	obj->v = p->v;
+	obj_find_min_max(obj);
 	puts("start_generate");
 	if (p->vn && p->vn->size)
 		obj->vn = p->vn;
@@ -214,7 +255,8 @@ t_object		*new_object(t_parsed_object *p)
 	puts("end_generate");
 	if (p->vt && p->vt->size)
 		obj->vt = p->vt;
-	/* obj->v = join_vertices(obj); */
+	else
+		obj->vt = generate_vt_array(obj);
 	obj_set_center(obj);
 	object_create_vao(obj);
 	obj->bmp = bmp_loader("res/sparcs.bmp");
