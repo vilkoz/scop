@@ -6,15 +6,20 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 08:39:53 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 19:31:47 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
+# define GL3_PROTOTYPES 1
 # include <GL/glew.h>
-# include <SDL2/SDL.h>
+# ifdef __APPLE__
+#  include <SDL.h>
+# else
+#  include <SDL2/SDL.h>
+# endif
 # include <stdio.h>
 # include "parser/parser.h"
 

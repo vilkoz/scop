@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 14:24:52 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 23:50:10 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 20:20:39 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ void			insert_to_indexes_with_align(int array_number, int *ind,
 		if ((vector_index = g_indexes_align[array_number][i]) >= 0)
 			VECTOR_ADD(vectors[vector_index], &(ind[i]));
 	}
-	if (g_valid_return[array_number] % 4 != 0)
-	{
-		i = -1;
-		while (++i < g_valid_return[array_number] / 3)
-			if ((vector_index = g_indexes_align[array_number][i]) >= 0)
-				VECTOR_ADD(vectors[vector_index], &(ind[i]));
-	}
+	/* if (g_valid_return[array_number] % 4 != 0) */
+	/* { */
+	/* 	i = -1; */
+	/* 	while (++i < g_valid_return[array_number] / 3) */
+	/* 		if ((vector_index = g_indexes_align[array_number][i]) >= 0) */
+	/* 			VECTOR_ADD(vectors[vector_index], &(ind[i])); */
+	/* } */
 }
 
 void			parse_face_line(char *line, t_indexes *indexes)

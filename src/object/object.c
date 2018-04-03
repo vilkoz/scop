@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 10:01:43 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 20:22:50 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ static void		object_create_vao(t_object *obj)
 	ErrorCheckValue = glGetError();
 	if (ErrorCheckValue != GL_NO_ERROR)
 	{
-		fprintf(stderr,"ERROR: Could not create a VAO: %s \n",
-				gluErrorString(ErrorCheckValue));
+		fprintf(stderr,"ERROR: Could not create a VAO: %d \n",
+				(ErrorCheckValue));
 		exit(-1);
 	}
 }
@@ -156,10 +156,22 @@ static void		set_material_uniforms(t_object *obj, t_window *win)
 	glUniform1f(win->ids.ns_uniform, obj->m->ns);
 }
 
+static void		check_gl_error(int line)
+{
+	GLenum			error_check_value;
+
+	error_check_value = glGetError();
+	if (error_check_value != GL_NO_ERROR)
+	{
+		fprintf(stderr,"ERROR %d: Could not create a VBO: %d \n",
+				line, (error_check_value));
+		exit(-1);
+	}
+}
+
 void			object_draw(t_object *obj, t_window *win)
 {
 	t_matrix		model;
-	GLenum			error_check_value;
 
 	INIT_EYE(model);
 	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
@@ -174,15 +186,9 @@ void			object_draw(t_object *obj, t_window *win)
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
 	glUniform1i(win->ids.shading_uniform, win->shading_type);
 	set_material_uniforms(obj, win);
-	glDrawArrays(GL_QUADS, 0, (GLsizei)obj->v->size);
+	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->v->size);
+	check_gl_error(__LINE__);
 	glBindVertexArray(0);
-	error_check_value = glGetError();
-	if (error_check_value != GL_NO_ERROR)
-	{
-		fprintf(stderr,"ERROR: Could not create a VBO: %s \n",
-				gluErrorString(error_check_value));
-		exit(-1);
-	}
 }
 
 # define MIN(a, b) (((a) < (b)) ? (a) : (b))

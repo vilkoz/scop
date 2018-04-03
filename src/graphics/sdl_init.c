@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 09:06:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/03 19:55:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@ static void		set_glut_options(t_window *win)
 	win->callbacks.resize = resize_function;
 	win->callbacks.keyboard = keyboard_function;
 	win->callbacks.cleanup = (void (*)(void*))cleanup;
-	glEnable(GL_DEPTH_TEST);
-	int major_version;
-	int minor_version;
-
-	major_version = 0;
-	minor_version = 0;
-	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
-	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
-	printf("> OpenGL version: %d.%d\n", major_version, minor_version);
 }
 
 static void		init_window(t_window *win)
@@ -50,10 +41,14 @@ static void		init_window(t_window *win)
 	win->handle = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_OPENGL);
 	assert(win->handle != NULL);
+	set_glut_options(win);
 	win->context = SDL_GL_CreateContext(win->handle);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	SDL_GL_SwapWindow(win->handle);
+	glEnable(GL_DEPTH_TEST);
+	printf("GL Version: %s\n", glGetString(GL_VERSION));
+	printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 static void		init_camera(t_camera *cam)
@@ -73,7 +68,6 @@ void			init_sdl(int ac, char **av, t_window *win)
 	set_window_callback_handle(win);
 	init_window(win);
 	init_camera(&(win->cam));
-	set_glut_options(win);
 	glewExperimental = GL_TRUE;
 	if ((err = glewInit()) != GLEW_OK)
 	{
