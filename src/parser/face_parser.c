@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 14:24:52 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 20:20:39 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/06 00:18:05 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,31 @@
 #include "face_parser_private.h"
 #include <stdio.h>
 
-static char		*g_format_lines[12] = {
-	"f %d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d",
-	"f %d/%d/%d %d/%d/%d %d/%d/%d",
-	"f %d//%d %d//%d %d//%d %d//%d",
-	"f %d//%d %d//%d %d//%d",
-	"f %d/%d/ %d/%d/ %d/%d/ %d/%d/",
-	"f %d/%d/ %d/%d/ %d/%d/",
-	"f %d/%d %d/%d %d/%d %d/%d",
-	"f %d/%d %d/%d %d/%d",
-	"f %d %d %d %d",
-	"f %d %d %d",
+static char		*g_format_lines[6] = {
+	"%d/%d/%d",
+	"%d//%d",
+	"%d/%d/",
+	"%d/%d",
+	"%d",
 	NULL
 };
 
-static int		g_valid_return[12] = {
-	12,
-	9,
-	8,
-	6,
-	8,
-	6,
-	8,
-	6,
-	4,
+static int		g_valid_return[6] = {
 	3,
-	-1
+	2,
+	2,
+	2,
+	1,
+	0
 };
 
-static int		g_indexes_align[12][12] = {
-	{0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2},
-	{0, 1, 2, 0, 1, 2, 0, 1, 2, -1, -1, -1},
-	{0, 1, 0, 1, 0, 1, 0, 1, -1, -1, -1, -1},
-	{0, 1, 0, 1, 0, 1, -1, -1, -1, -1, -1, -1},
-	{0, 2, 0, 2, 0, 2, 0, 2, -1, -1, -1, -1},
-	{0, 2, 0, 2, 0, 2, -1, -1, -1, -1, -1, -1},
-	{0, 2, 0, 2, 0, 2, 0, 2, -1, -1, -1, -1},
-	{0, 2, 0, 2, 0, 2, -1, -1, -1, -1, -1, -1},
-	{0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1},
-	{0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+static int		g_indexes_align[6][3] = {
+	{0, 1, 2},
+	{0, 2, -1},
+	{0, 1, -1},
+	{0, 1, -1},
+	{0, -1, -1},
+	{0, 0, 0},
 };
 
 void			throw_face_parse_error(char *line)
@@ -61,7 +47,7 @@ void			throw_face_parse_error(char *line)
 	exit(1);
 }
 
-void			insert_to_indexes_with_align(int array_number, int *ind,
+void			vertex_insert_to_indexes_with_align(int array_number, int *ind,
 					t_indexes *indexes)
 {
 	int					i;
@@ -72,48 +58,90 @@ void			insert_to_indexes_with_align(int array_number, int *ind,
 	vectors[1] = indexes->n;
 	vectors[2] = indexes->t;
 	i = -1;
-	while (++i < 12)
+	while (++i < 3)
 	{
 		if ((vector_index = g_indexes_align[array_number][i]) >= 0)
 			VECTOR_ADD(vectors[vector_index], &(ind[i]));
 	}
-	/* if (g_valid_return[array_number] % 4 != 0) */
-	/* { */
-	/* 	i = -1; */
-	/* 	while (++i < g_valid_return[array_number] / 3) */
-	/* 		if ((vector_index = g_indexes_align[array_number][i]) >= 0) */
-	/* 			VECTOR_ADD(vectors[vector_index], &(ind[i])); */
-	/* } */
 }
 
-void			parse_face_line(char *line, t_indexes *indexes)
+int				detect_index(char *first_vertex)
 {
-	size_t		len;
 	int			i;
-	int			res;
-	int			ind[12];
+	int			ret;
+	int			tmp[3];
 
-	ft_bzero((void**)&(ind[0]), sizeof(int) * 3 * 4);
-	if ((len = ft_strlen(line)) < 5)
-		throw_face_parse_error(line);
 	i = -1;
-	while (++i < 11)
+	while (g_format_lines[++i])
 	{
-		res = sscanf(line, g_format_lines[i], &(ind[0]), &(ind[1]), &(ind[2]),
-				&(ind[3]), &(ind[4]), &(ind[5]), &(ind[6]), &(ind[7]),
-				&(ind[8]), &(ind[9]), &(ind[10]), &(ind[11]), &(ind[12]));
-		if (res != g_valid_return[i] && i == 10)
-				throw_face_parse_error(line);
-		else if (res == g_valid_return[i])
+		ret = sscanf(first_vertex, g_format_lines[i], &(tmp[0]),
+				&(tmp[1]), &(tmp[2]));
+		if (ret == g_valid_return[i])
 			break ;
+		else if (i == sizeof(g_format_lines) / sizeof(g_format_lines[0]) - 1)
+			throw_face_parse_error(first_vertex);
 	}
-	insert_to_indexes_with_align(i, &(ind[0]), indexes);
+	return (i);
+}
+
+void			insert_triangle(int array_number, char **triangle,
+					t_indexes *indexes)
+{
+	int			i;
+	int			ret;
+	int			vertex[3];
+
+	i = -1;
+	while (++i < 3)
+	{
+		ft_bzero((void*)&(vertex[0]), 3 * sizeof(int));
+		ret = sscanf(triangle[i], g_format_lines[array_number], &(vertex[0]),
+				&(vertex[1]), &(vertex[2]));
+		if (ret != g_valid_return[array_number])
+			throw_face_parse_error(triangle[i]);
+		vertex_insert_to_indexes_with_align(array_number, &(vertex[0]),
+				indexes);
+	}
+}
+
+void			parse_face_line(char *line, char **tokens, t_indexes *indexes)
+{
+	int				i;
+	size_t			len;
+	int				format_array_index;
+	char			*triangle[3];
+
+	if (tokens == NULL)
+		throw_face_parse_error("NULL");
+	len = 0;
+	while (tokens[len] != NULL)
+		len++;
+	if (len < 4)
+		throw_face_parse_error(line);
+	format_array_index = detect_index(tokens[1]);
+	i = 1;
+	while (tokens[i] && tokens[i + 1] && tokens[i + 2])
+	{
+		triangle[0] = tokens[i];
+		triangle[1] = tokens[i + 1];
+		triangle[2] = tokens[i + 2];
+		insert_triangle(format_array_index, &(triangle[0]), indexes);
+		i += 2;
+	}
+	if ((len - 1) % 3 != 0)
+	{
+		triangle[0] = tokens[len - 1 - 1];
+		triangle[1] = tokens[len - 1 - 0];
+		triangle[2] = tokens[1];
+		insert_triangle(format_array_index, &(triangle[0]), indexes);
+	}
 }
 
 t_vector				*face_parser(char **lines, int *i, char *prefix,
 							void *obj)
 {
 	t_indexes		*indexes;
+	char			**tokens;
 
 	indexes = (obj) ? (t_indexes*)obj : ft_memalloc(sizeof(t_indexes));
 	if (!indexes->v)
@@ -124,7 +152,9 @@ t_vector				*face_parser(char **lines, int *i, char *prefix,
 		indexes->n = vector_new(NULL, 0, sizeof(int));
 	while (lines[*i] && !ft_strncmp(lines[(*i)], prefix, ft_strlen(prefix)))
 	{
-		parse_face_line(lines[*i], indexes);
+		tokens = ft_strsplit(lines[*i], ' ');
+		parse_face_line(lines[*i], tokens, indexes);
+		ft_del_string_array(tokens);
 		++(*i);
 	}
 	return ((t_vector*)indexes);

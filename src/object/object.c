@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 20:22:50 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/05 23:54:46 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_vertex		gen_vn(t_object *obj, int v_index)
 	int			j;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < 3)
 	{
 		j = -1;
 		while (++j < 3)
@@ -51,13 +51,13 @@ t_vector		*generate_vn_array(t_object *obj)
 	{
 		tmp = gen_vn(obj, i);
 		j = -1;
-		while (++j < 4)
+		while (++j < 3)
 		{
 			VECTOR_ADD(v, &(tmp.x));
 			VECTOR_ADD(v, &(tmp.y));
 			VECTOR_ADD(v, &(tmp.z));
 		}
-		i += 12;
+		i += 9;
 	}
 	return (v);
 }
@@ -75,7 +75,7 @@ t_vector		*generate_vt_array(t_object *obj)
 	while (i < ((int)obj->v->size))
 	{
 		j = -1;
-		while (++j < 4)
+		while (++j < 3)
 		{
 			pos = NEW_VERTEX(
 					*(float*)vector_get(obj->v, i + j*3 + 0),
@@ -86,7 +86,7 @@ t_vector		*generate_vt_array(t_object *obj)
 			VECTOR_ADD(v, &(tmp.x));
 			VECTOR_ADD(v, &(tmp.y));
 		}
-		i += 12;
+		i += 9;
 	}
 	return (v);
 }

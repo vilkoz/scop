@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 19:55:18 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/06 00:11:36 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void		init_window(t_window *win)
 {
 	assert(SDL_Init(SDL_INIT_VIDEO) == 0);
 	win->handle = SDL_CreateWindow(WINDOW_NAME, SDL_WINDOWPOS_CENTERED,
-			SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_OPENGL);
+		SDL_WINDOWPOS_CENTERED, W, H,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	assert(win->handle != NULL);
 	set_glut_options(win);
 	win->context = SDL_GL_CreateContext(win->handle);
