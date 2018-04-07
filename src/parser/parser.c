@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 23:59:27 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 13:50:00 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,27 @@ t_parsed_object		*obj_file_parser(char *filename)
 	if ((buf = read_file_to_string(filename)) == NULL)
 		return (NULL);
 	obj = obj_parser(buf, filename);
-	obj = flatten_vectors(obj);
+	puts(" readed vectors sizes:");
+	printf("  vertices: %zu\n", obj->v->size);
 	if (obj->vn)
-		vector_set_ready(obj->vn);
+		printf("  normals: %zu\n", obj->vn->size);
 	if (obj->vt)
+		printf("  textures: %zu\n", obj->vt->size);
+	puts(" parsed object inited, starting flattening");
+	obj = flatten_vectors(obj);
+	puts(" flattened vectors sizes:");
+	vector_set_ready(obj->v);
+	printf("  vertices: %zu\n", obj->v->size / 3);
+	if (obj->vn)
+	{
+		vector_set_ready(obj->vn);
+		printf("  normals: %zu\n", obj->vn->size / 3);
+	}
+	if (obj->vt)
+	{
 		vector_set_ready(obj->vt);
+		printf("  textures: %zu\n", obj->vt->size / 2);
+	}
 	ft_memdel((void**)&buf);
 	return (obj);
 }

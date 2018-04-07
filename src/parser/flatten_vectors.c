@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 16:34:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 23:56:52 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 13:42:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static t_vector	*flat_vector_with_indices(t_vector *v, t_vector *indices,
 	int			*index;
 	int			i;
 
+	printf("  vector size: %zu, indices size: %zu\n", v->size, indices->size);
 	out = vector_new(0, 0, sizeof(float));
 	i = -1;
 	while (++i < (int)indices->size)
 	{
 		VECTOR_GET_TO(index, indices, i);
-		/* printf("index = %d\n", *index); */
 		VECTOR_GET_TO(tmp, v, *index - 1);
 		VECTOR_ADD(out, &(tmp->x));
 		VECTOR_ADD(out, &(tmp->y));
@@ -42,14 +42,18 @@ t_parsed_object	*flatten_vectors(t_parsed_object *old)
 	t_parsed_object	*flat;
 
 	flat = ft_memalloc(sizeof(t_parsed_object));
-	puts("start v");
 	flat->v = flat_vector_with_indices(old->v, old->f->v, TYPE_VERTEX);
-	puts("start normals");
+	puts(" flattened vertices");
 	if (old->vn && old->vn->size)
+	{
 		flat->vn = flat_vector_with_indices(old->vn, old->f->n, TYPE_NORMAL);
-	puts("start textures");
+		puts(" flattened normal vectors");
+	}
 	if (old->vt && old->vt->size)
+	{
 		flat->vt = flat_vector_with_indices(old->vt, old->f->t, TYPE_TEXTURE);
+		puts(" flattened texture vectors");
+	}
 	vector_delete(&(old->v), NULL);
 	vector_delete(&(old->vn), NULL);
 	vector_delete(&(old->vt), NULL);
