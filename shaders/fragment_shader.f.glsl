@@ -2,7 +2,9 @@
 
 in vec2					UV;
 uniform sampler2D		textureSampler;
+uniform samplerCube		sampler_cube;
 
+uniform int				is_cubemap;
 uniform int				shading;
 uniform vec3			ka;
 uniform vec3			kd;
@@ -12,6 +14,8 @@ uniform vec3			camPos;
 in vec3					Normal;
 in vec3					FragPos;
 in vec3					WorldPos;
+
+in vec3					tex_coords;
 
 out vec4				FragColor;
 
@@ -53,6 +57,11 @@ vec3	calc_color_for_ligth_source(vec3 lightPos, vec3 lightColor)
 
 void	main(void)
 {
+	if (is_cubemap == 1)
+	{
+		FragColor = texture(sampler_cube, tex_coords);
+		return ;
+	}
 	vec3 res = calc_color_for_ligth_source(vec3(100.f, 100.f, 100.f), vec3(1.f, 1.f, 1.f));
 	res += calc_color_for_ligth_source(vec3(-100.f, -100.f, -100.f), vec3(1.f, 0.f, 1.f));
 	if (shading == 0)

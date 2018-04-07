@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 09:26:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 00:45:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ static void		get_uniforms_ids(t_ids *ids)
 	ids->kd_uniform = glGetUniformLocation(ids->program, "kd");
 	ids->ks_uniform = glGetUniformLocation(ids->program, "ks");
 	ids->ns_uniform = glGetUniformLocation(ids->program, "ns");
+	ids->is_cubemap_uniform = glGetUniformLocation(ids->program, "is_cubemap");
+	/* ids->smapler_cube_uniform = glGetUniformLocation(ids->program, */
+	/* 		"smapler_cube"); */
 }
 
 static void		compile_shader_from_file(GLuint *id, GLenum shader_type,

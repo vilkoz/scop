@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 15:38:54 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 01:31:59 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void			init_texture(t_object *obj)
 }
 
 
-static void		object_create_vao(t_object *obj)
+void		object_create_vao(t_object *obj)
 {
 	GLenum		ErrorCheckValue;
 
@@ -135,8 +135,6 @@ static void		object_create_vao(t_object *obj)
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 		glEnableVertexAttribArray(2);
 	}
-
-	init_texture(obj);
 
 	glBindVertexArray(0);
 	ErrorCheckValue = glGetError();
@@ -222,7 +220,11 @@ void			object_draw(t_object *obj, t_window *win)
 	t_matrix		model;
 
 	INIT_EYE(model);
-	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
+	if (obj->is_cubemap)
+		translate_matrix(&model, win->cam.pos.x, win->cam.pos.y,
+				win->cam.pos.z);
+	else
+		translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
 	obj->angle += 30.0f * (1.f / 60.f);
 	if (obj->angle >= 360.0f)
 		obj->angle -= 360.0f;
@@ -231,10 +233,17 @@ void			object_draw(t_object *obj, t_window *win)
 	scale_matrix(&model, obj->scale, obj->scale, obj->scale);
 	/* rotate_matrix(&model, 180.0f * (M_PI / 180.0f), 'z'); */
 	glBindVertexArray(obj->ids.vao);
+	check_gl_error(__LINE__);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
+	check_gl_error(__LINE__);
 	glUniform1i(win->ids.shading_uniform, win->shading_type);
+	check_gl_error(__LINE__);
 	set_material_uniforms(obj, win);
-	glBindTexture(obj->tex_type, obj->ids.tex);
+	check_gl_error(__LINE__);
+	glUniform1i(win->ids.is_cubemap_uniform, obj->is_cubemap);
+	check_gl_error(__LINE__);
+	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
+	check_gl_error(__LINE__);
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->v->size);
 	check_gl_error(__LINE__);
 	glBindVertexArray(0);
@@ -302,6 +311,7 @@ t_object		*new_object(t_parsed_object *p)
 	obj_find_min_max(obj);
 	obj_set_center(obj);
 	obj->enable_rotation = 1;
+	obj->is_cubemap = 0;
 	if (p->vn && p->vn->size)
 		obj->vn = p->vn;
 	else
@@ -323,6 +333,9 @@ t_object		*new_object(t_parsed_object *p)
 	printf("  normals: \t%zu\t%zu\n", obj->vn->size, obj->vn->size / 3);
 	printf("  textures: \t%zu\t%zu\n", obj->vt->size, obj->vt->size / 2);
 	object_create_vao(obj);
+	glBindVertexArray(obj->ids.vao);
+	init_texture(obj);
+	glBindVertexArray(0);
 	puts(" created VAO for object");
 	return (obj);
 }

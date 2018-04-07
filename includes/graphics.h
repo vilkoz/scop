@@ -6,10 +6,9 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 19:31:47 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 00:45:28 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
@@ -59,6 +58,8 @@ typedef struct		s_ids
 	GLuint			kd_uniform;
 	GLuint			ks_uniform;
 	GLuint			ns_uniform;
+	GLuint			is_cubemap_uniform;
+	/* GLuint			smapler_cube_uniform; */
 }					t_ids;
 
 typedef struct		s_camera

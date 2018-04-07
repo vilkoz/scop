@@ -11,6 +11,7 @@ out vec3						Normal;
 out vec3						FragPos;
 out vec2						UV;
 out vec3						WorldPos;
+out vec3						tex_coords;
 
 void	main(void)
 {
@@ -20,4 +21,5 @@ void	main(void)
 	FragPos = vec3(view * model * vec4(aPos, 1.0));
 	WorldPos = vec3(model * vec4(aPos, 1.0));
 	UV = aUV;
+	tex_coords = aPos;
 }

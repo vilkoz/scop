@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 14:18:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 01:25:33 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "graphics.h"
 #include "libft.h"
 #include "object.h"
+#include "skybox.h"
 
 static t_vector	*parse_objects(int ac, char **av)
 {
@@ -52,6 +53,8 @@ static t_vector	*init_objects(t_vector *parsed_objects)
 		VECTOR_ADD(v, &obj);
 		puts("");
 	}
+	/* obj = new_skybox(); */
+	/* VECTOR_ADD(v, &obj); */
 	vector_delete(&parsed_objects, NULL);
 	vector_set_ready(v);
 	return (v);

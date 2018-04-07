@@ -36,6 +36,7 @@ SRC=main.c							\
 	matrix/special_matrices.c		\
 	vertex/vertex_math.c			\
 	object/object.c					\
+	object/skybox.c					\
 
 BINDIR=bin
 
