@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 14:24:52 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/06 00:18:05 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 13:48:44 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ static int		g_valid_return[6] = {
 };
 
 static int		g_indexes_align[6][3] = {
-	{0, 1, 2},
-	{0, 2, -1},
-	{0, 1, -1},
-	{0, 1, -1},
-	{0, -1, -1},
+	{VERTEX, TEXTURE, NORMAL},
+	{VERTEX, NORMAL, -1},
+	{VERTEX, TEXTURE, -1},
+	{VERTEX, TEXTURE, -1},
+	{VERTEX, -1, -1},
 	{0, 0, 0},
 };
 
@@ -54,9 +54,9 @@ void			vertex_insert_to_indexes_with_align(int array_number, int *ind,
 	t_vector			*vectors[3];
 	int					vector_index;
 
-	vectors[0] = indexes->v;
-	vectors[1] = indexes->n;
-	vectors[2] = indexes->t;
+	vectors[VERTEX] = indexes->v;
+	vectors[NORMAL] = indexes->n;
+	vectors[TEXTURE] = indexes->t;
 	i = -1;
 	while (++i < 3)
 	{

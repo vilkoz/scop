@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:09 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 16:19:13 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 01:59:42 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct		s_indexes
 ** ns - specular exponent = 0..1000
 ** d or Tr - transperency coeficient (unimplemented)
 ** illum - only one supported
+** tex - custom field for texture filename
 */
 
 typedef struct		s_material
@@ -38,6 +39,7 @@ typedef struct		s_material
 	t_vertex		kd;
 	t_vertex		ks;
 	float			ns;
+	void			*tex;
 }					t_material;
 
 typedef struct		s_parsed_object
