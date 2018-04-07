@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 14:47:25 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 15:38:54 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,17 @@ t_vector		*generate_vt_array(t_object *obj)
 	return (v);
 }
 
+void			init_texture(t_object *obj)
+{
+	glGenTextures(1, &(obj->ids.tex));
+	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
+	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, obj->bmp->w, obj->bmp->h, 0, GL_BGR,
+			GL_UNSIGNED_BYTE, obj->bmp->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
+
+
 static void		object_create_vao(t_object *obj)
 {
 	GLenum		ErrorCheckValue;
@@ -124,6 +135,8 @@ static void		object_create_vao(t_object *obj)
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 		glEnableVertexAttribArray(2);
 	}
+
+	init_texture(obj);
 
 	glBindVertexArray(0);
 	ErrorCheckValue = glGetError();
@@ -210,17 +223,18 @@ void			object_draw(t_object *obj, t_window *win)
 
 	INIT_EYE(model);
 	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
-	/*             angles  fps                fps     */
-	obj->angle += 30.0f * (1.f / 60.f);// * win->speed_multiplier;
+	obj->angle += 30.0f * (1.f / 60.f);
 	if (obj->angle >= 360.0f)
 		obj->angle -= 360.0f;
-	rotate_matrix(&model, obj->angle * (M_PI / 180.0f), 'y');
+	if (obj->enable_rotation)
+		rotate_matrix(&model, obj->angle * (M_PI / 180.0f), 'y');
 	scale_matrix(&model, obj->scale, obj->scale, obj->scale);
 	/* rotate_matrix(&model, 180.0f * (M_PI / 180.0f), 'z'); */
 	glBindVertexArray(obj->ids.vao);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
 	glUniform1i(win->ids.shading_uniform, win->shading_type);
 	set_material_uniforms(obj, win);
+	glBindTexture(obj->tex_type, obj->ids.tex);
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->v->size);
 	check_gl_error(__LINE__);
 	glBindVertexArray(0);
@@ -263,6 +277,7 @@ void			obj_find_min_max(t_object *obj)
 void			obj_set_center(t_object *obj)
 {
 	float	scale;
+
 	obj->pos = NEW_VERTEX(-((obj->max.x + obj->min.x) / 2.0f),
 		-((obj->max.y + obj->min.y) / 2.0f),
 		-((obj->max.z + obj->min.z) / 2.0f));
@@ -274,16 +289,6 @@ void			obj_set_center(t_object *obj)
 	printf(" scale: %f\n", scale);
 }
 
-void			init_texture(t_object *obj)
-{
-	glGenTextures(1, &(obj->ids.tex));
-	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
-	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, obj->bmp->w, obj->bmp->h, 0, GL_BGR,
-			GL_UNSIGNED_BYTE, obj->bmp->data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-}
-
 t_object		*new_object(t_parsed_object *p)
 {
 	t_object	*obj;
@@ -292,9 +297,11 @@ t_object		*new_object(t_parsed_object *p)
 	obj->m = init_object_material(p->mat);
 	print_object_material_info(obj->m);
 	obj->bmp = obj->m->tex;
+	obj->tex_type = GL_TEXTURE_2D;
 	obj->v = p->v;
 	obj_find_min_max(obj);
 	obj_set_center(obj);
+	obj->enable_rotation = 1;
 	if (p->vn && p->vn->size)
 		obj->vn = p->vn;
 	else
@@ -316,7 +323,6 @@ t_object		*new_object(t_parsed_object *p)
 	printf("  normals: \t%zu\t%zu\n", obj->vn->size, obj->vn->size / 3);
 	printf("  textures: \t%zu\t%zu\n", obj->vt->size, obj->vt->size / 2);
 	object_create_vao(obj);
-	init_texture(obj);
 	puts(" created VAO for object");
 	return (obj);
 }
