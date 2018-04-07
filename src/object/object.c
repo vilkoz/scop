@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/05 23:54:46 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 14:47:25 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static void		set_material_uniforms(t_object *obj, t_window *win)
 
 	if (obj->m == NULL)
 	{
-		v = NEW_VERTEX(0.7, 0.7, 0.7);
+		v = NEW_VERTEX(0.1, 0.1, 0.1);
 		glUniform3fv(win->ids.ka_uniform, 1, (void*)&(v));
 		v = NEW_VERTEX(0.7, 0.7, 0.7);
 		glUniform3fv(win->ids.kd_uniform, 1, (void*)&(v));
@@ -154,6 +154,41 @@ static void		set_material_uniforms(t_object *obj, t_window *win)
 	glUniform3fv(win->ids.kd_uniform, 1, (void*)&(obj->m->kd));
 	glUniform3fv(win->ids.ks_uniform, 1, (void*)&(obj->m->ks));
 	glUniform1f(win->ids.ns_uniform, obj->m->ns);
+}
+
+t_material		*init_object_material(t_material *p)
+{
+	t_material		*m;
+	const char		*default_tex = "res/sky.bmp";
+
+	if (p != NULL)
+	{
+		if (p->tex == NULL)
+			p->tex = bmp_loader((char*)default_tex);
+		return (p);
+	}
+	m = ft_memalloc(sizeof(t_material));
+	m->ka = NEW_VERTEX(0.1, 0.1, 0.1);
+	m->kd = NEW_VERTEX(0.7, 0.7, 0.7);
+	m->ks = NEW_VERTEX(0.1, 0.1, 0.1);
+	m->ns = 50.f;
+	m->tex = bmp_loader((char*)default_tex);
+	if (m->tex == NULL)
+	{
+		fprintf(stderr, "NO DEFAULT TEXTURE FILE FOUND %s\n", default_tex);
+		exit(1);
+	}
+	return (m);
+}
+
+void			print_object_material_info(t_material *m)
+{
+	puts(" ---------------object material info----------------");
+	printf(" ka: %f %f %f\n", m->ka.x, m->ka.y, m->ka.z);
+	printf(" kd: %f %f %f\n", m->kd.x, m->kd.y, m->kd.z);
+	printf(" ks: %f %f %f\n", m->ks.x, m->ks.y, m->ks.z);
+	printf(" ns: %f\n", m->ns);
+	puts(" ---------------------------------------------------");
 }
 
 static void		check_gl_error(int line)
@@ -176,7 +211,7 @@ void			object_draw(t_object *obj, t_window *win)
 	INIT_EYE(model);
 	translate_matrix(&model, obj->pos.x, obj->pos.y, obj->pos.z);
 	/*             angles  fps                fps     */
-	obj->angle += 10.0f * (60.0f * win->speed_multiplier);
+	obj->angle += 30.0f * (1.f / 60.f);// * win->speed_multiplier;
 	if (obj->angle >= 360.0f)
 		obj->angle -= 360.0f;
 	rotate_matrix(&model, obj->angle * (M_PI / 180.0f), 'y');
@@ -221,6 +256,8 @@ void			obj_find_min_max(t_object *obj)
 	}
 	obj->min = vertex_new(&(edges[0][0]));
 	obj->max = vertex_new(&(edges[1][0]));
+	printf(" min dimentions: %f %f %f\n", obj->min.x, obj->min.y, obj->min.z);
+	printf(" max dimentions: %f %f %f\n", obj->max.x, obj->max.y, obj->max.z);
 }
 
 void			obj_set_center(t_object *obj)
@@ -229,11 +266,12 @@ void			obj_set_center(t_object *obj)
 	obj->pos = NEW_VERTEX(-((obj->max.x + obj->min.x) / 2.0f),
 		-((obj->max.y + obj->min.y) / 2.0f),
 		-((obj->max.z + obj->min.z) / 2.0f));
+	printf(" center: %f %f %f\n", obj->pos.x, obj->pos.y, obj->pos.z);
 	scale = 1.0f / (obj->max.x - obj->min.x);
 	scale = MIN(1.0f / (obj->max.y - obj->min.y), scale);
 	scale = MIN(1.0f / (obj->max.z - obj->min.z), scale);
 	obj->scale = scale;
-	printf("scale = %f\n", scale);
+	printf(" scale: %f\n", scale);
 }
 
 void			init_texture(t_object *obj)
@@ -251,26 +289,34 @@ t_object		*new_object(t_parsed_object *p)
 	t_object	*obj;
 
 	obj = ft_memalloc(sizeof(t_object));
-	obj->m = p->mat;
+	obj->m = init_object_material(p->mat);
+	print_object_material_info(obj->m);
+	obj->bmp = obj->m->tex;
 	obj->v = p->v;
 	obj_find_min_max(obj);
 	obj_set_center(obj);
-	puts("start_generate");
 	if (p->vn && p->vn->size)
 		obj->vn = p->vn;
 	else
+	{
+		puts(" start generating normals");
 		obj->vn = generate_vn_array(obj);
-	printf("obj->vn size: %zu\n", obj->vn->size);
-	puts("end_generate");
-	puts("start_generate vt");
+		puts(" end generating normals");
+	}
 	if (p->vt && p->vt->size)
 		obj->vt = p->vt;
 	else
+	{
+		puts(" start generating texture UVs");
 		obj->vt = generate_vt_array(obj);
-	puts("end_generate vt");
+		puts(" end generating texture UVs");
+	}
+	puts(" sizes:\t\tfloats\telements");
+	printf("  vertices: \t%zu\t%zu\n", obj->v->size, obj->v->size / 3);
+	printf("  normals: \t%zu\t%zu\n", obj->vn->size, obj->vn->size / 3);
+	printf("  textures: \t%zu\t%zu\n", obj->vt->size, obj->vt->size / 2);
 	object_create_vao(obj);
-	obj->bmp = bmp_loader("res/sparcs.bmp");
 	init_texture(obj);
-	puts("object_create_vao");
+	puts(" created VAO for object");
 	return (obj);
 }

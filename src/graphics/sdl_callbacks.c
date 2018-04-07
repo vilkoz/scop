@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/03 08:38:20 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/07 14:47:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void				timer_function()
 	g_win->speed_multiplier = (float)(current_clock - g_win->frames) /
 		(float)CLOCKS_PER_SEC;
 	g_win->frames = current_clock;
+	int wait_time = (1000 / 60) - (int)(g_win->speed_multiplier * 1000);
+	if (wait_time > 0)
+		SDL_Delay(wait_time);
 }
 
 void				resize_function(int w, int h)
