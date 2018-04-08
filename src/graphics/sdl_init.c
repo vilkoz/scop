@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 16:05:35 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 01:03:44 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void		init_window(t_window *win)
 	printf("GL Version: %s\n", glGetString(GL_VERSION));
 	printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	win->enable_rotation = 1;
+	win->shading_type = TEXTURE_SHADING;
 }
 
 static void		init_camera(t_camera *cam)

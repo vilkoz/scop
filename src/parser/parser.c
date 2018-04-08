@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 20:17:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 00:58:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser/reader.h"
 #include "parser/parser.h"
 #include "parser_private.h"
+#include "progress_visualizer.h"
 
 static char			*g_names[6] = {
 	"v ",
@@ -60,7 +61,7 @@ static t_vector		*face_element_parser(char **lines, int *i, char *prefix,
 		sscanf(lines[*i], &(format_line[0]), &(v.x), &(v.y), &(v.z));
 		VECTOR_ADD(vertices, &v);
 		++(*i);
-		printf("line: %d vertices->size %zu alloc_size: %zu\n", *i, vertices->size, vertices->allocated_size);
+		update_visualizer(i);
 	}
 	vector_set_ready(vertices);
 	return (vertices);
@@ -88,6 +89,7 @@ t_parsed_object		*obj_parser(char *file_contents, char *filename)
 	obj = ft_memalloc(sizeof(t_parsed_object));
 	obj->filename = filename;
 	lines = ft_strsplit(file_contents, '\n');
+	init_visualizer(lines, 0, &i);
 	i = 0;
 	while (lines[i])
 	{
@@ -100,10 +102,10 @@ t_parsed_object		*obj_parser(char *file_contents, char *filename)
 			}
 		if (g_names[j] == NULL)
 			i++;
-		printf("current line num: %d\n", i);
 	}
 	printf("\r");
 	ft_del_string_array(lines);
+	close_visualizer();
 	return (obj);
 }
 

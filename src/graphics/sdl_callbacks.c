@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 15:58:55 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 01:02:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void				keyboard_function(unsigned char key, int x, int y)
 {
 	(void)x;
 	(void)y;
-	/* printf("key = %d\n", key); */
 	if (key == SDLK_w)
 		g_win->cam.pos.z += -0.1;
 	else if (key == SDLK_s)
@@ -56,7 +55,7 @@ void				keyboard_function(unsigned char key, int x, int y)
 		g_win->skybox_num = (g_win->skybox_num + 1) % 2;
 	else if (key == SDLK_r)
 		g_win->enable_rotation = (g_win->enable_rotation + 1) % 2;
-	else if (key == SDLK_n)
+	else if (key == SDLK_n && (fabs(g_win->transition) < 0.001f))
 	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
 		g_win->transition = 1.f;

@@ -25,6 +25,7 @@ SRC=main.c								\
 	parser/flatten_vectors.c			\
 	parser/material_parser.c			\
 	parser/material_parser_callbacks.c	\
+	parser/progress_visualizer.c		\
 	bmp_loader/bmp_loader.c				\
 	graphics/sdl_init.c					\
 	graphics/sdl_callbacks.c			\
