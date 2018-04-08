@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 16:34:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 13:42:40 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 20:04:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static t_vector	*flat_vector_with_indices(t_vector *v, t_vector *indices,
 	int			i;
 
 	printf("  vector size: %zu, indices size: %zu\n", v->size, indices->size);
+	/* out = vector_new(0, indices->size * (type != TYPE_TEXTURE ? 3 : 2), */
+	/* 		sizeof(float)); */
 	out = vector_new(0, 0, sizeof(float));
 	i = -1;
 	while (++i < (int)indices->size)

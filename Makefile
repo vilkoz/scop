@@ -63,10 +63,10 @@ $(NAME): $(BINS) $(LIBFT)
 
 clean:
 	rm -f $(BINS)
-	#make -C libft clean
+	make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	#make -C libft fclean
+	make -C libft fclean
 
 re: fclean all

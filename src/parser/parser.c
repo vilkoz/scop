@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 15:26:34 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 20:17:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static t_vector		*face_element_parser(char **lines, int *i, char *prefix,
 		sscanf(lines[*i], &(format_line[0]), &(v.x), &(v.y), &(v.z));
 		VECTOR_ADD(vertices, &v);
 		++(*i);
+		printf("line: %d vertices->size %zu alloc_size: %zu\n", *i, vertices->size, vertices->allocated_size);
 	}
 	vector_set_ready(vertices);
 	return (vertices);
@@ -99,7 +100,9 @@ t_parsed_object		*obj_parser(char *file_contents, char *filename)
 			}
 		if (g_names[j] == NULL)
 			i++;
+		printf("current line num: %d\n", i);
 	}
+	printf("\r");
 	ft_del_string_array(lines);
 	return (obj);
 }
@@ -117,6 +120,12 @@ static int			check_parsed_sizes(t_parsed_object *obj)
 		printf("  normals: %zu\n", obj->vn->size);
 	if (obj->vt)
 		printf("  textures: %zu\n", obj->vt->size);
+	puts(" readed indices vectors sizes:");
+	printf("  vertices: %zu\n", obj->f->v->size);
+	if (obj->f->n)
+		printf("  normals: %zu\n", obj->f->n->size);
+	if (obj->f->t)
+		printf("  textures: %zu\n", obj->f->t->size);
 	puts(" parsed object inited, starting flattening");
 	return (0);
 }
