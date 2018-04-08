@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 13:57:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 16:05:35 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static void		get_uniforms_ids(t_ids *ids)
 	ids->view_uniform = glGetUniformLocation(ids->program, "view");
 	ids->projection_uniform = glGetUniformLocation(ids->program, "projection");
 	ids->shading_uniform = glGetUniformLocation(ids->program, "shading");
+	ids->shading_transition_uniform = glGetUniformLocation(ids->program,
+			"shading_transition");
 	ids->cam_pos_uniform = glGetUniformLocation(ids->program, "camPos");
 	ids->ka_uniform = glGetUniformLocation(ids->program, "ka");
 	ids->kd_uniform = glGetUniformLocation(ids->program, "kd");

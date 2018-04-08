@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:11:32 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 15:58:55 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void				keyboard_function(unsigned char key, int x, int y)
 	else if (key == SDLK_r)
 		g_win->enable_rotation = (g_win->enable_rotation + 1) % 2;
 	else if (key == SDLK_n)
+	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
+		g_win->transition = 1.f;
+	}
 }
 
 void				timer_function()
@@ -68,6 +71,10 @@ void				timer_function()
 	g_win->speed_multiplier = (float)(current_clock - g_win->frames) /
 		(float)CLOCKS_PER_SEC;
 	g_win->frames = current_clock;
+	if (g_win->transition > 0)
+		g_win->transition -= g_win->speed_multiplier * 30.f;
+	if (g_win->transition < 0)
+		g_win->transition = 0;
 	int wait_time = (1000 / 60) - (int)(g_win->speed_multiplier * 1000);
 	if (wait_time > 0)
 		SDL_Delay(wait_time);

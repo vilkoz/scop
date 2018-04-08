@@ -2,10 +2,10 @@
 
 in vec2					UV;
 uniform sampler2D		textureSampler;
-/* uniform samplerCube		sampler_cube; */
 
 uniform int				is_cubemap;
 uniform int				shading;
+uniform float			shading_transition;
 uniform vec3			ka;
 uniform vec3			kd;
 uniform vec3			ks;
@@ -57,24 +57,17 @@ vec3	calc_color_for_ligth_source(vec3 lightPos, vec3 lightColor)
 
 void	main(void)
 {
-	/* if (is_cubemap == 1) */
-	/* { */
-	/* 	FragColor = texture(sampler_cube, tex_coords); */
-	/* 	/1* FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); *1/ */
-	/* 	return ; */
-	/* } */
 	vec3 res = calc_color_for_ligth_source(vec3(100.f, 100.f, 100.f), vec3(1.f, 1.f, 1.f));
 	res += calc_color_for_ligth_source(vec3(-100.f, -100.f, -100.f), vec3(1.f, 0.f, 1.f));
-	if (shading == 0)
-	{
-		FragColor = vec4(res, 1.0f);
-	}
-	else if (shading == 1)
-	{
-		FragColor = vec4(abs(Normal.x), abs(Normal.y), abs(Normal.z), 1.0);
-	}
-	else
-	{
-		FragColor = texture(textureSampler, UV) * vec4(res, 1.0);
-	}
+
+	vec4 shadingTypesColors[3];
+
+	shadingTypesColors[0] = vec4(res, 1.0f);
+	shadingTypesColors[1] = vec4(abs(Normal.x), abs(Normal.y), abs(Normal.z), 1.0);
+	shadingTypesColors[2] = texture(textureSampler, UV) * vec4(res, 1.0);
+	int previous = shading - 1;
+	if (previous < 0)
+		previous += 3;
+	FragColor = shadingTypesColors[shading] * (1.f - shading_transition) +
+		shadingTypesColors[previous] * (shading_transition);
 }

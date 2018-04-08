@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:53:22 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 16:09:45 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static void		object_draw(t_object *obj, t_window *win)
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
 	check_gl_error(__FILE__, __LINE__);
 	glUniform1i(win->ids.shading_uniform, win->shading_type);
+	check_gl_error(__FILE__, __LINE__);
+	glUniform1f(win->ids.shading_transition_uniform, win->transition);
 	check_gl_error(__FILE__, __LINE__);
 	set_material_uniforms(obj, win);
 	check_gl_error(__FILE__, __LINE__);

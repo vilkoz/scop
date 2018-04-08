@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:33:39 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 15:44:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -52,6 +52,7 @@ typedef struct		s_ids
 	GLuint			view_uniform;
 	GLuint			projection_uniform;
 	GLuint			shading_uniform;
+	GLuint			shading_transition_uniform;
 	GLuint			tex;
 	GLuint			second_tex;
 	GLuint			cam_pos_uniform;
@@ -92,6 +93,7 @@ typedef struct		s_window
 	int				shading_type;
 	int				skybox_num;
 	int				enable_rotation;
+	float			transition;
 }					t_window;
 
 void				init_sdl(int ac, char **av, t_window *win);
