@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 14:42:39 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:50:27 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 22:59:06 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void		init_buffer_from_vector(GLuint *id, t_vector *v,
 	glVertexAttribPointer(attrib_number, elem_size, GL_FLOAT, GL_FALSE,
 			elem_size * sizeof(float), 0);
 	glEnableVertexAttribArray(attrib_number);
+	ft_memdel((void**)&(v->elems));
 }
 
 void			object_create_vao(t_object *obj)

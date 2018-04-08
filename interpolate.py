@@ -22,10 +22,10 @@ def get_x_y(name):
     return x, y
 
 def main():
-    x, y = get_x_y("data")
-    x1, y1 = get_x_y("data2")
-    x2, y2 = get_x_y("data3")
-    x3, y3 = get_x_y("data4")
+    x, y = get_x_y("data5")
+    x1, y1 = get_x_y("data6")
+    # x2, y2 = get_x_y("data3")
+    # x3, y3 = get_x_y("data4")
 
     p = np.poly1d(np.polyfit(x, y, 2))
     p30 = np.poly1d(np.polyfit(x, y, 7))
@@ -33,8 +33,8 @@ def main():
     print("prediction for 973139 %d" % p(973139))
 
     xp = np.linspace(0, 160e3, 100)
-    _ = plt.plot(x, y, '.', x1, y1, '-', x2, y2, '--', x3, y3, '*')#, xp, p(xp), '-', xp, p30(xp), '--')
-    plt.ylim(0,80)
+    _ = plt.plot(x, y, '--', x1, y1, '-', xp, p(xp), '-')#, x2, y2, '--', x3, y3, '*')#, xp, p(xp), '-', xp, p30(xp), '--')
+    plt.ylim(0,150)
     plt.show()
 
 if __name__ == "__main__":

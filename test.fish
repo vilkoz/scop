@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-for i in (seq 10)
+for i in (seq 10 20)
 	rm test.obj
 	for j in (seq $i)
 		cat res/nanosuit.obj >> test.obj
