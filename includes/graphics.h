@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 00:45:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 11:53:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -65,6 +65,7 @@ typedef struct		s_ids
 typedef struct		s_camera
 {
 	t_vertex		pos;
+	t_vertex		angles;
 }					t_camera;
 
 typedef struct		s_sdl_callbacks
@@ -94,7 +95,8 @@ typedef struct		s_window
 
 void				init_sdl(int ac, char **av, t_window *win);
 void				create_vbo(t_parsed_object *obj, t_ids *ids);
-void				load_shaders(t_ids *ids);
+void				load_shaders(t_ids *ids, char *vertex_filename,
+						char *fragment_filename);
 void				sdl_main_loop(t_window *win);
 
 #endif

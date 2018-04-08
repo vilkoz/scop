@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/06 00:11:36 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 10:56:08 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ static void		init_camera(t_camera *cam)
 	cam->pos.z = 2;
 }
 
+static void		get_uniforms_ids(t_ids *ids)
+{
+	ids->model_uniform = glGetUniformLocation(ids->program, "model");
+	ids->view_uniform = glGetUniformLocation(ids->program, "view");
+	ids->projection_uniform = glGetUniformLocation(ids->program, "projection");
+	ids->shading_uniform = glGetUniformLocation(ids->program, "shading");
+	ids->cam_pos_uniform = glGetUniformLocation(ids->program, "camPos");
+	ids->ka_uniform = glGetUniformLocation(ids->program, "ka");
+	ids->kd_uniform = glGetUniformLocation(ids->program, "kd");
+	ids->ks_uniform = glGetUniformLocation(ids->program, "ks");
+	ids->ns_uniform = glGetUniformLocation(ids->program, "ns");
+}
+
 void			init_sdl(int ac, char **av, t_window *win)
 {
 	GLenum		err;
@@ -81,6 +94,7 @@ void			init_sdl(int ac, char **av, t_window *win)
 				glewGetErrorString(err));
 		exit(-1);
 	}
-	load_shaders(&(win->ids));
+	load_shaders(&(win->ids), VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH);
+	get_uniforms_ids(&(win->ids));
 	resize_function(W, H);
 }

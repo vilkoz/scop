@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 00:45:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 10:56:13 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,6 @@ static void		check_gl_error(GLuint shaderId, unsigned LINE,
 	}
 }
 
-static void		get_uniforms_ids(t_ids *ids)
-{
-	ids->model_uniform = glGetUniformLocation(ids->program, "model");
-	ids->view_uniform = glGetUniformLocation(ids->program, "view");
-	ids->projection_uniform = glGetUniformLocation(ids->program, "projection");
-	ids->shading_uniform = glGetUniformLocation(ids->program, "shading");
-	ids->cam_pos_uniform = glGetUniformLocation(ids->program, "camPos");
-	ids->ka_uniform = glGetUniformLocation(ids->program, "ka");
-	ids->kd_uniform = glGetUniformLocation(ids->program, "kd");
-	ids->ks_uniform = glGetUniformLocation(ids->program, "ks");
-	ids->ns_uniform = glGetUniformLocation(ids->program, "ns");
-	ids->is_cubemap_uniform = glGetUniformLocation(ids->program, "is_cubemap");
-	/* ids->smapler_cube_uniform = glGetUniformLocation(ids->program, */
-	/* 		"smapler_cube"); */
-}
-
 static void		compile_shader_from_file(GLuint *id, GLenum shader_type,
 					char *filepath)
 {
@@ -75,12 +59,13 @@ static void		compile_shader_from_file(GLuint *id, GLenum shader_type,
 	ft_strdel(&buf);
 }
 
-void			load_shaders(t_ids *ids)
+void			load_shaders(t_ids *ids, char *vertex_filename,
+						char *fragment_filename)
 {
 	compile_shader_from_file(&(ids->vertex_shader), GL_VERTEX_SHADER,
-			VERTEX_SHADER_PATH);
+			vertex_filename);
 	compile_shader_from_file(&(ids->fragment_shader), GL_FRAGMENT_SHADER,
-			FRAGMENT_SHADER_PATH);
+			fragment_filename);
 	ids->program = glCreateProgram();
 	glAttachShader(ids->program, ids->vertex_shader);
 	glAttachShader(ids->program, ids->fragment_shader);
@@ -89,5 +74,4 @@ void			load_shaders(t_ids *ids)
 	glUseProgram(ids->program);
 	glDeleteShader(ids->vertex_shader);
 	glDeleteShader(ids->fragment_shader);
-	get_uniforms_ids(ids);
 }

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 01:14:00 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 01:19:12 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 10:50:04 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void			obj_set_center(t_object *obj);
 t_vector		*generate_vn_array(t_object *obj);
 t_vector		*generate_vt_array(t_object *obj);
 void			object_create_vao(t_object *obj);
+void			check_gl_error(int line);
 
 #endif

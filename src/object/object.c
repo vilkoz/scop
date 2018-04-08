@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 01:31:59 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 11:20:41 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void			print_object_material_info(t_material *m)
 	puts(" ---------------------------------------------------");
 }
 
-static void		check_gl_error(int line)
+void			check_gl_error(int line)
 {
 	GLenum			error_check_value;
 
@@ -231,7 +231,6 @@ void			object_draw(t_object *obj, t_window *win)
 	if (obj->enable_rotation)
 		rotate_matrix(&model, obj->angle * (M_PI / 180.0f), 'y');
 	scale_matrix(&model, obj->scale, obj->scale, obj->scale);
-	/* rotate_matrix(&model, 180.0f * (M_PI / 180.0f), 'z'); */
 	glBindVertexArray(obj->ids.vao);
 	check_gl_error(__LINE__);
 	glUniformMatrix4fv(win->ids.model_uniform, 1, GL_FALSE, model.m);
@@ -240,9 +239,9 @@ void			object_draw(t_object *obj, t_window *win)
 	check_gl_error(__LINE__);
 	set_material_uniforms(obj, win);
 	check_gl_error(__LINE__);
-	glUniform1i(win->ids.is_cubemap_uniform, obj->is_cubemap);
+	/* glUniform1i(win->ids.is_cubemap_uniform, obj->is_cubemap); */
 	check_gl_error(__LINE__);
-	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
+	glBindTexture(obj->tex_type, obj->ids.tex);
 	check_gl_error(__LINE__);
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->v->size);
 	check_gl_error(__LINE__);
@@ -337,5 +336,6 @@ t_object		*new_object(t_parsed_object *p)
 	init_texture(obj);
 	glBindVertexArray(0);
 	puts(" created VAO for object");
+	obj->draw = object_draw;
 	return (obj);
 }

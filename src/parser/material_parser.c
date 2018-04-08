@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 14:09:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 14:04:39 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 12:50:38 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 			&(filename[0]));
 	(*i)++;
 	buf = read_file_to_string(relative_filename);
-	ft_strdel(&relative_filename);
 	if (buf == NULL)
 	{
 		ft_memdel((void**)&m);
@@ -179,6 +178,7 @@ t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 	parse_material_file(m, ft_strsplit(buf, '\n'),
 			((t_parsed_object*)obj)->filename);
 	printf(" parsed material file %s\n", relative_filename);
+	ft_strdel(&relative_filename);
 	ft_strdel(&buf);
 	return ((t_vector*)m);
 }

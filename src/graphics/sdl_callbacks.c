@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 14:47:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 13:08:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ void				keyboard_function(unsigned char key, int x, int y)
 		g_win->cam.pos.y += -0.1;
 	else if (key == SDLK_e)
 		g_win->cam.pos.y += 0.1;
+	else if (key == SDLK_j)
+		g_win->cam.angles.y += 0.1f;
+	else if (key == SDLK_l)
+		g_win->cam.angles.y -= 0.1f;
+	else if (key == SDLK_i)
+		g_win->cam.angles.x += 0.1f;
+	else if (key == SDLK_k)
+		g_win->cam.angles.x -= 0.1f;
+	else if (key == SDLK_u)
+		g_win->cam.angles.z += 0.1f;
+	else if (key == SDLK_o)
+		g_win->cam.angles.z -= 0.1f;
 	else if (key == SDLK_n)
 	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
@@ -64,14 +76,15 @@ void				resize_function(int w, int h)
 {
 	t_matrix		projection;
 
+	printf("resize: %d, %d\n", w, h);
 	projection = projection_matrix(45.0f, (float)w / (float)h, 0.1f, 100.0f);
 	glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE,
 			projection.m);
 	g_win->w = w;
 	g_win->h = h;
 	glViewport(0, 0, g_win->w, g_win->h);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	SDL_GL_SwapWindow(g_win->handle);
+	/* glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); */
+	/* SDL_GL_SwapWindow(g_win->handle); */
 }
 
 void				render_function(void)
@@ -83,6 +96,9 @@ void				render_function(void)
 	g_win->frames += 1;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	INIT_EYE(view);
+	rotate_matrix(&view, g_win->cam.angles.x, 'x');
+	rotate_matrix(&view, g_win->cam.angles.y, 'y');
+	rotate_matrix(&view, g_win->cam.angles.z, 'z');
 	translate_matrix(&view, -g_win->cam.pos.x, -g_win->cam.pos.y,
 			-g_win->cam.pos.z);
 	glUseProgram(g_win->ids.program);
@@ -92,7 +108,7 @@ void				render_function(void)
 	while (++i < (int)g_win->obj->size)
 	{
 		VECTOR_GET_TO(tmp, g_win->obj, i);
-		object_draw(*tmp, g_win);
+		(*tmp)->draw(*tmp, g_win);
 	}
 	SDL_GL_SwapWindow(g_win->handle);
 }

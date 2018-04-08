@@ -2,7 +2,7 @@
 
 in vec2					UV;
 uniform sampler2D		textureSampler;
-uniform samplerCube		sampler_cube;
+/* uniform samplerCube		sampler_cube; */
 
 uniform int				is_cubemap;
 uniform int				shading;
@@ -57,11 +57,12 @@ vec3	calc_color_for_ligth_source(vec3 lightPos, vec3 lightColor)
 
 void	main(void)
 {
-	if (is_cubemap == 1)
-	{
-		FragColor = texture(sampler_cube, tex_coords);
-		return ;
-	}
+	/* if (is_cubemap == 1) */
+	/* { */
+	/* 	FragColor = texture(sampler_cube, tex_coords); */
+	/* 	/1* FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); *1/ */
+	/* 	return ; */
+	/* } */
 	vec3 res = calc_color_for_ligth_source(vec3(100.f, 100.f, 100.f), vec3(1.f, 1.f, 1.f));
 	res += calc_color_for_ligth_source(vec3(-100.f, -100.f, -100.f), vec3(1.f, 0.f, 1.f));
 	if (shading == 0)

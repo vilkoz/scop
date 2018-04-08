@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 01:25:33 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 11:19:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static t_vector	*init_objects(t_vector *parsed_objects)
 		VECTOR_ADD(v, &obj);
 		puts("");
 	}
-	/* obj = new_skybox(); */
-	/* VECTOR_ADD(v, &obj); */
+	obj = new_skybox();
+	VECTOR_ADD(v, &obj);
 	vector_delete(&parsed_objects, NULL);
 	vector_set_ready(v);
 	return (v);

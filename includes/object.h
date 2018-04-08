@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 00:40:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 10:47:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_object
 	int			enable_rotation;
 	GLenum		tex_type;
 	int			is_cubemap;
+	void		(*draw)(struct s_object *obj, t_window *win);
 }				t_object;
 
 void			object_draw(t_object *obj, t_window *win);
