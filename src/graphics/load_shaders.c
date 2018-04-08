@@ -6,22 +6,17 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 10:56:13 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 14:56:33 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 #include "parser/reader.h"
 #include "libft.h"
+#include "load_shaders_private.h"
 
-typedef enum	e_shader_compile_error
-{
-	SHADER_COMPILE_ERROR,
-	PROGRAM_COMPILE_ERROR
-}				e_shader_error;
-
-static void		check_gl_error(GLuint shaderId, unsigned LINE,
-					e_shader_error type)
+static void		check_gl_compilation_error(GLuint shaderId, unsigned LINE,
+					t_shader_compile_error_type type)
 {
 	GLint		ret_status;
 	GLint		length;
@@ -55,7 +50,7 @@ static void		compile_shader_from_file(GLuint *id, GLenum shader_type,
 	buf = read_file_to_string(filepath);
 	glShaderSource(*id, 1, (const char*const*)&buf, NULL);
 	glCompileShader(*id);
-	check_gl_error(*id, __LINE__, SHADER_COMPILE_ERROR);
+	check_gl_compilation_error(*id, __LINE__, SHADER_COMPILE_ERROR);
 	ft_strdel(&buf);
 }
 
@@ -70,7 +65,7 @@ void			load_shaders(t_ids *ids, char *vertex_filename,
 	glAttachShader(ids->program, ids->vertex_shader);
 	glAttachShader(ids->program, ids->fragment_shader);
 	glLinkProgram(ids->program);
-	check_gl_error(ids->program, __LINE__, PROGRAM_COMPILE_ERROR);
+	check_gl_compilation_error(ids->program, __LINE__, PROGRAM_COMPILE_ERROR);
 	glUseProgram(ids->program);
 	glDeleteShader(ids->vertex_shader);
 	glDeleteShader(ids->fragment_shader);

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 17:08:35 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/31 18:07:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 15:06:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void		*bmp_loader(char *path)
 	FILE			*f;
 
 	b = ft_memalloc(sizeof(t_bmp_data));
-	f = fopen(path, "rb");
-	if (!f)
+	if (!(f = fopen(path, "rb")))
 	{
 		perror(path);
 		return (NULL);

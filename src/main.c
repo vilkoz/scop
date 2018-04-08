@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 11:19:31 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 14:12:41 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "parser/parser.h"
 #include "graphics.h"
 #include "libft.h"
-#include "object.h"
-#include "skybox.h"
+#include "object/object.h"
+#include "object/skybox.h"
 
 static t_vector	*parse_objects(int ac, char **av)
 {

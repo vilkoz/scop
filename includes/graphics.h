@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:06:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 11:53:11 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 14:33:39 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -53,13 +53,12 @@ typedef struct		s_ids
 	GLuint			projection_uniform;
 	GLuint			shading_uniform;
 	GLuint			tex;
+	GLuint			second_tex;
 	GLuint			cam_pos_uniform;
 	GLuint			ka_uniform;
 	GLuint			kd_uniform;
 	GLuint			ks_uniform;
 	GLuint			ns_uniform;
-	GLuint			is_cubemap_uniform;
-	/* GLuint			smapler_cube_uniform; */
 }					t_ids;
 
 typedef struct		s_camera
@@ -91,6 +90,8 @@ typedef struct		s_window
 	t_camera		cam;
 	t_vector		*obj;
 	int				shading_type;
+	int				skybox_num;
+	int				enable_rotation;
 }					t_window;
 
 void				init_sdl(int ac, char **av, t_window *win);
@@ -98,5 +99,11 @@ void				create_vbo(t_parsed_object *obj, t_ids *ids);
 void				load_shaders(t_ids *ids, char *vertex_filename,
 						char *fragment_filename);
 void				sdl_main_loop(t_window *win);
+
+/*
+** check_gl_error.c
+*/
+
+void				check_gl_error(char *file, int line);
 
 #endif

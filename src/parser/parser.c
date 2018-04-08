@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/07 13:50:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 15:26:34 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,23 @@ t_parsed_object		*obj_parser(char *file_contents, char *filename)
 	return (obj);
 }
 
+static int			check_parsed_sizes(t_parsed_object *obj)
+{
+	if (obj->v == NULL || obj->v->size == 0)
+	{
+		fprintf(stderr, "no vertices found in file!\n");
+		return (-1);
+	}
+	puts(" readed vectors sizes:");
+	printf("  vertices: %zu\n", obj->v->size);
+	if (obj->vn)
+		printf("  normals: %zu\n", obj->vn->size);
+	if (obj->vt)
+		printf("  textures: %zu\n", obj->vt->size);
+	puts(" parsed object inited, starting flattening");
+	return (0);
+}
+
 t_parsed_object		*obj_file_parser(char *filename)
 {
 	char				*buf;
@@ -112,13 +129,8 @@ t_parsed_object		*obj_file_parser(char *filename)
 	if ((buf = read_file_to_string(filename)) == NULL)
 		return (NULL);
 	obj = obj_parser(buf, filename);
-	puts(" readed vectors sizes:");
-	printf("  vertices: %zu\n", obj->v->size);
-	if (obj->vn)
-		printf("  normals: %zu\n", obj->vn->size);
-	if (obj->vt)
-		printf("  textures: %zu\n", obj->vt->size);
-	puts(" parsed object inited, starting flattening");
+	if (check_parsed_sizes(obj))
+		return (NULL);
 	obj = flatten_vectors(obj);
 	puts(" flattened vectors sizes:");
 	vector_set_ready(obj->v);

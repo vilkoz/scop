@@ -6,12 +6,12 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 13:08:31 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 14:11:32 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
-#include "object.h"
+#include "object/object.h"
 #include "matrix.h"
 #include <math.h>
 #include <time.h>
@@ -52,11 +52,12 @@ void				keyboard_function(unsigned char key, int x, int y)
 		g_win->cam.angles.z += 0.1f;
 	else if (key == SDLK_o)
 		g_win->cam.angles.z -= 0.1f;
+	else if (key == SDLK_m)
+		g_win->skybox_num = (g_win->skybox_num + 1) % 2;
+	else if (key == SDLK_r)
+		g_win->enable_rotation = (g_win->enable_rotation + 1) % 2;
 	else if (key == SDLK_n)
-	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
-		printf("shading_type = %d\n", g_win->shading_type);
-	}
 }
 
 void				timer_function()
@@ -76,15 +77,13 @@ void				resize_function(int w, int h)
 {
 	t_matrix		projection;
 
-	printf("resize: %d, %d\n", w, h);
+	glUseProgram(g_win->ids.program);
 	projection = projection_matrix(45.0f, (float)w / (float)h, 0.1f, 100.0f);
 	glUniformMatrix4fv(g_win->ids.projection_uniform, 1, GL_FALSE,
 			projection.m);
 	g_win->w = w;
 	g_win->h = h;
 	glViewport(0, 0, g_win->w, g_win->h);
-	/* glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); */
-	/* SDL_GL_SwapWindow(g_win->handle); */
 }
 
 void				render_function(void)

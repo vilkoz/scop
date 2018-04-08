@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 10:56:08 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/08 13:57:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ static void		init_window(t_window *win)
 	set_glut_options(win);
 	win->context = SDL_GL_CreateContext(win->handle);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	SDL_GL_SwapWindow(win->handle);
 	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SDL_GL_SwapWindow(win->handle);
 	printf("GL Version: %s\n", glGetString(GL_VERSION));
 	printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	win->enable_rotation = 1;
 }
 
 static void		init_camera(t_camera *cam)
@@ -78,7 +79,6 @@ void			init_sdl(int ac, char **av, t_window *win)
 
 	(void)ac;
 	(void)av;
-	/* glutInit(&ac, av); */
 	set_window_callback_handle(win);
 	init_window(win);
 	init_camera(&(win->cam));
@@ -96,5 +96,7 @@ void			init_sdl(int ac, char **av, t_window *win)
 	}
 	load_shaders(&(win->ids), VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH);
 	get_uniforms_ids(&(win->ids));
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SDL_GL_SwapWindow(win->handle);
 	resize_function(W, H);
 }

@@ -21,22 +21,29 @@ endif
 
 all: $(NAME)
 
-SRC=main.c							\
-	parser/reader.c					\
-	parser/parser.c					\
-	parser/face_parser.c			\
-	parser/flatten_vectors.c		\
-	parser/material_parser.c		\
-	bmp_loader/bmp_loader.c			\
-	graphics/sdl_init.c				\
-	graphics/sdl_callbacks.c		\
-	graphics/load_shaders.c			\
-	graphics/sdl_main_loop.c		\
-	matrix/matrix_utils.c			\
-	matrix/special_matrices.c		\
-	vertex/vertex_math.c			\
-	object/object.c					\
-	object/skybox.c					\
+SRC=main.c								\
+	parser/reader.c						\
+	parser/parser.c						\
+	parser/face_parser.c				\
+	parser/flatten_vectors.c			\
+	parser/material_parser.c			\
+	parser/material_parser_callbacks.c	\
+	bmp_loader/bmp_loader.c				\
+	graphics/sdl_init.c					\
+	graphics/sdl_callbacks.c			\
+	graphics/load_shaders.c				\
+	graphics/sdl_main_loop.c			\
+	graphics/check_gl_error.c			\
+	matrix/matrix_utils.c				\
+	matrix/special_matrices.c			\
+	vertex/vertex_math.c				\
+	object/object.c						\
+	object/generate_arrays.c			\
+	object/object_create_vao.c			\
+	object/object_material.c			\
+	object/object_fit_to_screen.c		\
+	object/skybox/skybox.c				\
+	object/skybox/cubemap_loader.c		\
 
 BINDIR=bin
 
