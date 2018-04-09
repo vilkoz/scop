@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 01:23:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:12:17 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 12:00:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define SKYBOX_H
 
 # include "object/object.h"
+
+# ifndef SKYBOX_FOLDER
+#  define SKYBOX_FOLDER "res/skybox/"
+# endif
 
 t_object		*new_skybox(void);
 

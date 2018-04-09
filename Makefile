@@ -56,7 +56,9 @@ $(BINDIR)/%.o: %.c
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(BINS) $(LIBFT)
+SKYBOX_FOLDER=res/skybox/
+
+$(NAME): $(BINS) $(LIBFT) $(SKYBOXES)
 	$(CC) -o $(NAME) $(BINS) $(LIBFT) $(LINKER_FLAGS)
 
 clean:

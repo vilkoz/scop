@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:09:40 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:35:10 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 12:02:14 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,25 @@
 #include "bmp_loader/bmp_loader.h"
 #include "skybox_private.h"
 #include "matrix.h"
+#include "object/skybox.h"
 
 static char				*g_filenames[7] = {
-	"res/lake_skybox/lake1_ft.bmp",
-	"res/lake_skybox/lake1_bk.bmp",
-	"res/lake_skybox/lake1_up.bmp",
-	"res/lake_skybox/lake1_dn.bmp",
-	"res/lake_skybox/lake1_lf.bmp",
-	"res/lake_skybox/lake1_rt.bmp",
+	SKYBOX_FOLDER"/lake_skybox/ft.bmp",
+	SKYBOX_FOLDER"/lake_skybox/bk.bmp",
+	SKYBOX_FOLDER"/lake_skybox/up.bmp",
+	SKYBOX_FOLDER"/lake_skybox/dn.bmp",
+	SKYBOX_FOLDER"/lake_skybox/lf.bmp",
+	SKYBOX_FOLDER"/lake_skybox/rt.bmp",
 	NULL
 };
 
 static char				*g_second_filenames[7] = {
-	"res/space_skybox/space_ft.bmp",
-	"res/space_skybox/space_bk.bmp",
-	"res/space_skybox/space_up.bmp",
-	"res/space_skybox/space_dn.bmp",
-	"res/space_skybox/space_lf.bmp",
-	"res/space_skybox/space_rt.bmp",
+	SKYBOX_FOLDER"/space_skybox/ft.bmp",
+	SKYBOX_FOLDER"/space_skybox/bk.bmp",
+	SKYBOX_FOLDER"/space_skybox/up.bmp",
+	SKYBOX_FOLDER"/space_skybox/dn.bmp",
+	SKYBOX_FOLDER"/space_skybox/lf.bmp",
+	SKYBOX_FOLDER"/space_skybox/rt.bmp",
 	NULL
 };
 
