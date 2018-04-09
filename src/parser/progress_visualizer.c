@@ -6,14 +6,14 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 23:08:33 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 23:54:22 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 14:13:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "progress_visualizer.h"
 #include <assert.h>
 
-t_visualizer		*init_visualizer_vars(int *i, int *size)
+t_visualizer		**init_visualizer_vars(int *i, int *size)
 {
 	static t_visualizer	*v = NULL;
 
@@ -23,7 +23,7 @@ t_visualizer		*init_visualizer_vars(int *i, int *size)
 		v->i = i;
 		v->size = *size;
 	}
-	return (v);
+	return (&v);
 }
 
 void		init_visualizer(char **lines, int size, int *i)
@@ -31,7 +31,7 @@ void		init_visualizer(char **lines, int size, int *i)
 	t_visualizer	*v;
 	int				calc_size;
 
-	v = init_visualizer_vars(i, &size);
+	v = *init_visualizer_vars(i, &size);
 	if (v->w == NULL)
 	{
 		assert(SDL_Init(SDL_INIT_VIDEO) == 0);
@@ -56,7 +56,7 @@ void		update_visualizer(int *i)
 	SDL_Rect		rect;
 	int				percent;
 
-	v = init_visualizer_vars(i, i);
+	v = *init_visualizer_vars(i, i);
 	percent = (int)(((float)*(v->i) / (float)v->size) * 100.f);
 	rect = (SDL_Rect){(100), (125), percent * 3, (50)};
 	SDL_FillRect(v->s, &rect, 0xff0000);
@@ -65,10 +65,10 @@ void		update_visualizer(int *i)
 
 void		close_visualizer(void)
 {
-	t_visualizer	*v;
+	t_visualizer	**v;
 
 	v = init_visualizer_vars(0, 0);
-	SDL_DestroyWindow(v->w);
+	SDL_DestroyWindow((*v)->w);
 	SDL_Quit();
-	ft_memdel((void**)&v);
+	ft_memdel((void**)v);
 }

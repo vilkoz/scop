@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:12 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 00:58:23 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/09 14:10:52 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ t_parsed_object		*obj_parser(char *file_contents, char *filename)
 		if (g_names[j] == NULL)
 			i++;
 	}
-	printf("\r");
 	ft_del_string_array(lines);
 	close_visualizer();
 	return (obj);

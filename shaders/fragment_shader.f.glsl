@@ -57,8 +57,8 @@ vec3	calc_color_for_ligth_source(vec3 lightPos, vec3 lightColor)
 
 void	main(void)
 {
-	vec3 res = calc_color_for_ligth_source(vec3(100.f, 100.f, 100.f), vec3(1.f, 1.f, 1.f));
-	res += calc_color_for_ligth_source(vec3(-100.f, -100.f, -100.f), vec3(1.f, 0.f, 1.f));
+	vec3 res = calc_color_for_ligth_source(vec3(-100.f, 100.f, -100.f), vec3(1.f, 1.f, 1.f));
+	res += calc_color_for_ligth_source(vec3(100.f, -100.f, 100.f), vec3(1.f, 0.f, 1.f));
 
 	vec4 shadingTypesColors[3];
 
