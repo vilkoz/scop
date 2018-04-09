@@ -56,9 +56,48 @@ $(BINDIR)/%.o: %.c
 $(LIBFT):
 	make -C libft
 
-SKYBOX_FOLDER=res/skybox/
+SKYBOX_FOLDER=res/skybox
 
-$(NAME): $(BINS) $(LIBFT) $(SKYBOXES)
+SKYBOX_ARCHIEVE_FOLDER=$(SKYBOX_FOLDER)/archieve
+
+SKYBOX_ARCHIEVE=skyboxes.tar.gz
+
+SKYBOX_FILENAMES=bk.bmp		\
+				 dn.bmp		\
+				 ft.bmp		\
+				 lf.bmp		\
+				 rt.bmp		\
+				 up.bmp		\
+
+SKYBOXES=lake_skybox space_skybox
+
+SKYBOX_FILES=$(foreach x,$(SKYBOXES),$(addprefix $(SKYBOX_FOLDER)/$x/,$(SKYBOX_FILENAMES)))
+
+SKYBOX_ARCHIVED_FILES=$(foreach x,$(SKYBOX_FILES),$(subst $(SKYBOX_FOLDER),$(SKYBOX_ARCHIEVE_FOLDER),$(x:.bmp=.bmp.gz)))
+
+# $(SKYBOX_ARCHIEVE_FOLDER)/lake_skybox/%.bmp.gz: $(SKYBOX_FOLDER)/lake_skybox/%.bmp
+# 	@echo $<
+# 	@echo $@
+# 	@mkdir -p $(shell dirname $@)
+# 	cat $< | gzip -n > $@
+
+# $(SKYBOX_ARCHIEVE_FOLDER)/space_skybox/%.bmp.gz: $(SKYBOX_FOLDER)/space_skybox/%.bmp
+# 	@echo $<
+# 	@echo $@
+# 	@mkdir -p $(shell dirname $@)
+# 	cat $< | gzip -n > $@
+
+$(SKYBOX_FOLDER)/lake_skybox/%.bmp: $(SKYBOX_ARCHIEVE_FOLDER)/lake_skybox/%.bmp.gz
+	@mkdir -p $(shell dirname $@)
+	gunzip -c $< > $@
+
+$(SKYBOX_FOLDER)/space_skybox/%.bmp: $(SKYBOX_ARCHIEVE_FOLDER)/space_skybox/%.bmp.gz
+	@mkdir -p $(shell dirname $@)
+	gunzip -c $< > $@
+
+archieve: $(SKYBOX_ARCHIVED_FILES)
+
+$(NAME): $(BINS) $(LIBFT) | $(SKYBOX_FILES)
 	$(CC) -o $(NAME) $(BINS) $(LIBFT) $(LINKER_FLAGS)
 
 clean:
@@ -67,6 +106,9 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(SKYBOX_FILES)
 	make -C libft fclean
 
 re: fclean all
+
+.PHONY: re fclean clean archieve
