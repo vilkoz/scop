@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/02 23:19:29 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 22:36:34 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/10 00:06:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void			sdl_main_loop(t_window *win)
 			if ((e.type == SDL_QUIT)
 				|| (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
 				running = 0;
-			else if (e.type == SDL_KEYDOWN)
-				win->callbacks.keyboard(e.key.keysym.sym, 0, 0);
+			else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+				win->callbacks.keyboard(e.key.keysym.sym, e.type, 0);
 			else if (e.type == SDL_WINDOWEVENT &&
 				(e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED
 				|| e.window.event == SDL_WINDOWEVENT_RESIZED))

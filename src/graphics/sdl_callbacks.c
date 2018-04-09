@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 01:02:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/10 00:24:24 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,48 +18,95 @@
 
 static t_window		*g_win;
 
+static uchar		g_keys[15] = {
+	SDLK_w,
+	SDLK_s,
+	SDLK_a,
+	SDLK_d,
+	SDLK_q,
+	SDLK_e,
+	SDLK_j,
+	SDLK_l,
+	SDLK_i,
+	SDLK_k,
+	SDLK_u,
+	SDLK_o,
+	SDLK_m,
+	SDLK_r,
+	SDLK_n
+};
+
+static uchar		g_key_pressed[15] = {0};
+
 void				set_window_callback_handle(t_window *win)
 {
 	g_win = win;
 }
 
-void				keyboard_function(unsigned char key, int x, int y)
+void				key_down(unsigned char key)
 {
-	(void)x;
-	(void)y;
-	if (key == SDLK_w)
-		g_win->cam.pos.z += -0.1;
-	else if (key == SDLK_s)
-		g_win->cam.pos.z += +0.1;
-	else if (key == SDLK_a)
-		g_win->cam.pos.x += 0.1;
-	else if (key == SDLK_d)
-		g_win->cam.pos.x += -0.1;
-	else if (key == SDLK_q)
-		g_win->cam.pos.y += -0.1;
-	else if (key == SDLK_e)
-		g_win->cam.pos.y += 0.1;
-	else if (key == SDLK_j)
-		g_win->cam.angles.y += 0.1f;
-	else if (key == SDLK_l)
-		g_win->cam.angles.y -= 0.1f;
-	else if (key == SDLK_i)
-		g_win->cam.angles.x += 0.1f;
-	else if (key == SDLK_k)
-		g_win->cam.angles.x -= 0.1f;
-	else if (key == SDLK_u)
-		g_win->cam.angles.z += 0.1f;
-	else if (key == SDLK_o)
-		g_win->cam.angles.z -= 0.1f;
-	else if (key == SDLK_m)
+	int			i;
+
+	i = -1;
+	while (++i < (int)(sizeof(g_keys) / sizeof(g_keys[0])))
+		if (key == g_keys[i])
+			g_key_pressed[i] = 1;
+	if (key == SDLK_m)
 		g_win->skybox_num = (g_win->skybox_num + 1) % 2;
-	else if (key == SDLK_r)
+	if (key == SDLK_r)
 		g_win->enable_rotation = (g_win->enable_rotation + 1) % 2;
-	else if (key == SDLK_n && (fabs(g_win->transition) < 0.001f))
+	if (key == SDLK_n && (fabs(g_win->transition) < 0.001f))
 	{
 		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
 		g_win->transition = 1.f;
 	}
+}
+
+void				key_up(unsigned char key)
+{
+	int			i;
+
+	i = -1;
+	while (++i < (int)(sizeof(g_keys) / sizeof(g_keys[0])))
+		if (key == g_keys[i])
+			g_key_pressed[i] = 0;
+}
+
+void				keyboard_function(unsigned char key, int x, int y)
+{
+	(void)y;
+	if (x == SDL_KEYDOWN)
+		key_down(key);
+	else if (x == SDL_KEYUP)
+		key_up(key);
+}
+
+void				keyboard_check(void)
+{
+	if (g_key_pressed[0])
+		g_win->cam.pos.z += -0.05;
+	if (g_key_pressed[1])
+		g_win->cam.pos.z += +0.05;
+	if (g_key_pressed[2])
+		g_win->cam.pos.x += 0.05;
+	if (g_key_pressed[3])
+		g_win->cam.pos.x += -0.05;
+	if (g_key_pressed[4])
+		g_win->cam.pos.y += -0.05;
+	if (g_key_pressed[5])
+		g_win->cam.pos.y += 0.05;
+	if (g_key_pressed[6])
+		g_win->cam.angles.y += 0.05f;
+	if (g_key_pressed[7])
+		g_win->cam.angles.y -= 0.05f;
+	if (g_key_pressed[8])
+		g_win->cam.angles.x += 0.05f;
+	if (g_key_pressed[9])
+		g_win->cam.angles.x -= 0.05f;
+	if (g_key_pressed[10])
+		g_win->cam.angles.z += 0.05f;
+	if (g_key_pressed[11])
+		g_win->cam.angles.z -= 0.05f;
 }
 
 void				timer_function()
@@ -98,6 +145,7 @@ void				render_function(void)
 	t_object		**tmp;
 	int				i;
 
+	keyboard_check();
 	g_win->frames += 1;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	INIT_EYE(view);
