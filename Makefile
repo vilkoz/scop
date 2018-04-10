@@ -31,6 +31,7 @@ SRC=main.c								\
 	graphics/sdl_callbacks.c			\
 	graphics/load_shaders.c				\
 	graphics/sdl_main_loop.c			\
+	graphics/sdl_keyboard.c				\
 	graphics/check_gl_error.c			\
 	matrix/matrix_utils.c				\
 	matrix/special_matrices.c			\

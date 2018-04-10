@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/10 00:24:24 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 01:40:00 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,98 +15,18 @@
 #include "matrix.h"
 #include <math.h>
 #include <time.h>
+#include "sdl_keyboard.h"
 
 static t_window		*g_win;
-
-static uchar		g_keys[15] = {
-	SDLK_w,
-	SDLK_s,
-	SDLK_a,
-	SDLK_d,
-	SDLK_q,
-	SDLK_e,
-	SDLK_j,
-	SDLK_l,
-	SDLK_i,
-	SDLK_k,
-	SDLK_u,
-	SDLK_o,
-	SDLK_m,
-	SDLK_r,
-	SDLK_n
-};
-
-static uchar		g_key_pressed[15] = {0};
 
 void				set_window_callback_handle(t_window *win)
 {
 	g_win = win;
 }
 
-void				key_down(unsigned char key)
-{
-	int			i;
-
-	i = -1;
-	while (++i < (int)(sizeof(g_keys) / sizeof(g_keys[0])))
-		if (key == g_keys[i])
-			g_key_pressed[i] = 1;
-	if (key == SDLK_m)
-		g_win->skybox_num = (g_win->skybox_num + 1) % 2;
-	if (key == SDLK_r)
-		g_win->enable_rotation = (g_win->enable_rotation + 1) % 2;
-	if (key == SDLK_n && (fabs(g_win->transition) < 0.001f))
-	{
-		g_win->shading_type = (g_win->shading_type + 1) % NUM_SHADING_TYPES;
-		g_win->transition = 1.f;
-	}
-}
-
-void				key_up(unsigned char key)
-{
-	int			i;
-
-	i = -1;
-	while (++i < (int)(sizeof(g_keys) / sizeof(g_keys[0])))
-		if (key == g_keys[i])
-			g_key_pressed[i] = 0;
-}
-
 void				keyboard_function(unsigned char key, int x, int y)
 {
-	(void)y;
-	if (x == SDL_KEYDOWN)
-		key_down(key);
-	else if (x == SDL_KEYUP)
-		key_up(key);
-}
-
-void				keyboard_check(void)
-{
-	if (g_key_pressed[0])
-		g_win->cam.pos.z += -0.05;
-	if (g_key_pressed[1])
-		g_win->cam.pos.z += +0.05;
-	if (g_key_pressed[2])
-		g_win->cam.pos.x += 0.05;
-	if (g_key_pressed[3])
-		g_win->cam.pos.x += -0.05;
-	if (g_key_pressed[4])
-		g_win->cam.pos.y += -0.05;
-	if (g_key_pressed[5])
-		g_win->cam.pos.y += 0.05;
-	if (g_key_pressed[6])
-		g_win->cam.angles.y += 0.05f;
-	if (g_key_pressed[7])
-		g_win->cam.angles.y -= 0.05f;
-	if (g_key_pressed[8])
-		g_win->cam.angles.x += 0.05f;
-	if (g_key_pressed[9])
-		g_win->cam.angles.x -= 0.05f;
-	if (g_key_pressed[10])
-		g_win->cam.angles.z += 0.05f;
-	if (g_key_pressed[11])
-		g_win->cam.angles.z -= 0.05f;
+	keyboard_action(g_win, key, x, y);
 }
 
 void				timer_function()
@@ -145,7 +65,7 @@ void				render_function(void)
 	t_object		**tmp;
 	int				i;
 
-	keyboard_check();
+	keyboard_function(UNUSED, UNUSED, LAUNCH_PRESSED_KEYS);
 	g_win->frames += 1;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	INIT_EYE(view);
