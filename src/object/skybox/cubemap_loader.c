@@ -42,6 +42,8 @@ static void				load_cubemap_side(GLuint texture_id, GLenum side,
 	glTexImage2D(side, 0, GL_RGB, bmp->w, bmp->h, 0, GL_BGR, GL_UNSIGNED_BYTE,
 			bmp->data);
 	check_gl_error(__FILE__, __LINE__);
+	ft_memdel((void**)&(bmp->data));
+	ft_memdel((void**)&bmp);
 }
 
 void					load_cubemap(GLuint *tex_id, char **filenames)

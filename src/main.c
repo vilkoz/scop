@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/11 21:52:35 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:15:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ static t_vector	*parse_objects(int ac, char **av)
 	return (v);
 }
 
+static void		delete_parsed_object(void *parsed_object_ptr)
+{
+	t_parsed_object		*p;
+
+	p = *(t_parsed_object**)parsed_object_ptr;
+	if (p->f != NULL)
+	{
+		if (p->f->v)
+			vector_delete(&(p->f->v), NULL);
+		if (p->f->n)
+			vector_delete(&(p->f->n), NULL);
+		if (p->f->t)
+			vector_delete(&(p->f->t), NULL);
+	}
+	if (p->filename != NULL)
+		ft_strdel(&(p->filename));
+	ft_memdel((void**)&p);
+}
+
 static t_vector	*init_objects(t_vector *parsed_objects)
 {
 	t_vector		*v;
@@ -55,7 +74,7 @@ static t_vector	*init_objects(t_vector *parsed_objects)
 	}
 	obj = new_skybox();
 	VECTOR_ADD(v, &obj);
-	vector_delete(&parsed_objects, NULL);
+	vector_delete(&parsed_objects, delete_parsed_object);
 	vector_set_ready(v);
 	return (v);
 }
