@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 19:20:24 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:56:33 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:49:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,29 @@
 #include "libft.h"
 #include "load_shaders_private.h"
 
-static void		check_gl_compilation_error(GLuint shaderId, unsigned LINE,
+static void		check_gl_compilation_error(GLuint shader_id, unsigned line,
 					t_shader_compile_error_type type)
 {
 	GLint		ret_status;
 	GLint		length;
-	GLchar		*pInfo;
+	GLchar		*p_info;
 
 	ret_status = 0;
 	if (type == SHADER_COMPILE_ERROR)
-		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &ret_status);
+		glGetShaderiv(shader_id, GL_COMPILE_STATUS, &ret_status);
 	else if (type == PROGRAM_COMPILE_ERROR)
-		glGetProgramiv(shaderId, GL_LINK_STATUS, &ret_status);
-	if(ret_status == 0)
+		glGetProgramiv(shader_id, GL_LINK_STATUS, &ret_status);
+	if (ret_status == 0)
 	{
-		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
-		pInfo = (GLchar*)ft_strnew(length);
+		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &length);
+		p_info = (GLchar*)ft_strnew(length);
 		if (type == SHADER_COMPILE_ERROR)
-			glGetShaderInfoLog(shaderId, length, &length, pInfo);
+			glGetShaderInfoLog(shader_id, length, &length, p_info);
 		else if (type == PROGRAM_COMPILE_ERROR)
-			glGetProgramInfoLog(shaderId, length, &length, pInfo);
-		fprintf(stderr, "called at line-%u: Compiler/Linker error: %s", LINE,
-				pInfo);
-		ft_memdel((void**)&pInfo);
+			glGetProgramInfoLog(shader_id, length, &length, p_info);
+		fprintf(stderr, "called at line-%u: Compiler/Linker error: %s", line,
+				p_info);
+		ft_memdel((void**)&p_info);
 	}
 }
 

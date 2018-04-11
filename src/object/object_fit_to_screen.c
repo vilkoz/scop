@@ -6,12 +6,26 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 14:19:58 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:21:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 22:16:25 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object/object.h"
 #include "object_fit_to_screen_private.h"
+
+static void		set_edges(float *edges, t_object *obj)
+{
+	int			i;
+	float		*tmp;
+
+	i = -1;
+	while (++i < 3)
+	{
+		VECTOR_GET_TO(tmp, obj->v, i);
+		edges[0 + i] = *tmp;
+		edges[3 + i] = *tmp;
+	}
+}
 
 void			obj_find_min_max(t_object *obj)
 {
@@ -20,13 +34,7 @@ void			obj_find_min_max(t_object *obj)
 	int			i;
 	int			j;
 
-	i = -1;
-	while (++i < 3)
-	{
-		VECTOR_GET_TO(tmp, obj->v, i);
-		edges[0][i] = *tmp;
-		edges[1][i] = *tmp;
-	}
+	set_edges(((float*)&edges[0][0]), obj);
 	i = -1;
 	while (++i < (int)obj->v->size / 3)
 	{

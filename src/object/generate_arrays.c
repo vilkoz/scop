@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 14:07:23 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:09:53 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 22:12:00 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ t_vector		*generate_vt_array(t_object *obj)
 		while (++j < 3)
 		{
 			pos = NEW_VERTEX(
-					*(float*)vector_get(obj->v, i + j*3 + 0),
-					*(float*)vector_get(obj->v, i + j*3 + 1),
-					*(float*)vector_get(obj->v, i + j*3 + 2));
+					*(float*)vector_get(obj->v, i + j * 3 + 0),
+					*(float*)vector_get(obj->v, i + j * 3 + 1),
+					*(float*)vector_get(obj->v, i + j * 3 + 2));
 			tmp = NEW_VERTEX((pos.x - obj->min.x) * obj->scale,
 					(pos.y - obj->min.y) * obj->scale, 0);
 			VECTOR_ADD(v, &(tmp.x));

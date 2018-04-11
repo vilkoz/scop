@@ -6,14 +6,14 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 00:18:54 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/11 01:36:06 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:51:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "graphics.h"
-# include "bmp_loader/bmp_loader.h"
+#include "graphics.h"
+#include "bmp_loader/bmp_loader.h"
 
-static uchar		g_keys[15] = {
+static t_uchar		g_keys[15] = {
 	SDLK_w,
 	SDLK_s,
 	SDLK_a,
@@ -31,7 +31,7 @@ static uchar		g_keys[15] = {
 	SDLK_n
 };
 
-static uchar		g_key_pressed[15] = {0};
+static t_uchar		g_key_pressed[15] = {0};
 
 static void			key_down(t_window *win, unsigned char key)
 {

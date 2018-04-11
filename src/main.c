@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/17 00:52:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:12:41 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:52:35 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_vector	*init_objects(t_vector *parsed_objects)
 	t_vector		*v;
 	t_parsed_object	**tmp;
 	t_object		*obj;
-	int			i;
+	int				i;
 
 	v = vector_new(0, 0, sizeof(t_object*));
 	i = -1;

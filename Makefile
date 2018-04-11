@@ -5,10 +5,10 @@ VPATH=src
 FLAGS=-Wall -Wextra -Werror -I libft -I includes -g -O3
 ifeq ($(shell uname -s),Darwin)
 	FLAGS+=-I ~/Library/Frameworks/SDL2.framework/Headers
-	FLAGS+=-I libglew/include/ 
+	FLAGS+=-I ~/.brew/include
 	FLAGS+=-F ~/Library/Frameworks
 	LINKER_FLAGS=-F ~/Library/Frameworks -framework OpenGL -framework SDL2
- 	LINKER_FLAGS+=-L $(shell pwd)/libglew/lib -lGLEW
+ 	LINKER_FLAGS+=-L ~/.brew/lib/ -lGLEW
 	CC=clang
 else
 	LINKER_FLAGS=-lGL -lGLU -lGLEW -lSDL2 -lm

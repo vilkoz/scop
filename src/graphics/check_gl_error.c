@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 14:32:45 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:33:10 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:42:56 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void			check_gl_error(char *file, int line)
 	error_check_value = glGetError();
 	if (error_check_value != GL_NO_ERROR)
 	{
-		fprintf(stderr,"GL ERROR in file %s:%d - %d \n",
+		fprintf(stderr, "GL ERROR in file %s:%d - %d \n",
 				file, line, (error_check_value));
 		exit(-1);
 	}

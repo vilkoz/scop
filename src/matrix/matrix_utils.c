@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 01:07:58 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/03/21 01:40:16 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:52:09 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ t_matrix		matrix_mul(t_matrix *m1, t_matrix *m2)
 		collumn = 0;
 		while (collumn < 4)
 		{
-			out.m[row * 4 + collumn] = 
-				(m1->m[row * 4 + 0] * m2->m[collumn + 0 * 4]) + 
-				(m1->m[row * 4 + 1] * m2->m[collumn + 1 * 4]) + 
-				(m1->m[row * 4 + 2] * m2->m[collumn + 2 * 4]) + 
+			out.m[row * 4 + collumn] =
+				(m1->m[row * 4 + 0] * m2->m[collumn + 0 * 4]) +
+				(m1->m[row * 4 + 1] * m2->m[collumn + 1 * 4]) +
+				(m1->m[row * 4 + 2] * m2->m[collumn + 2 * 4]) +
 				(m1->m[row * 4 + 3] * m2->m[collumn + 3 * 4]);
 			collumn++;
 		}

@@ -6,12 +6,12 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 01:14:00 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 14:35:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 22:12:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SKYBOX_PRIVATE_C
-# define SKYBOX_PRIVATE_C
+#ifndef SKYBOX_PRIVATE_H
+# define SKYBOX_PRIVATE_H
 
 # include "object/object.h"
 

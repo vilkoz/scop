@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 01:03:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:48:25 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,6 @@ static void		init_window(t_window *win)
 	win->shading_type = TEXTURE_SHADING;
 }
 
-static void		init_camera(t_camera *cam)
-{
-	cam->pos.x = 0;
-	cam->pos.y = 0;
-	cam->pos.z = 2;
-}
-
 static void		get_uniforms_ids(t_ids *ids)
 {
 	ids->model_uniform = glGetUniformLocation(ids->program, "model");
@@ -84,7 +77,7 @@ void			init_sdl(int ac, char **av, t_window *win)
 	(void)av;
 	set_window_callback_handle(win);
 	init_window(win);
-	init_camera(&(win->cam));
+	win->cam.pos = NEW_VERTEX(0, 0, 2);
 	glewExperimental = GL_TRUE;
 	if ((err = glewInit()) != GLEW_OK)
 	{
@@ -93,7 +86,7 @@ void			init_sdl(int ac, char **av, t_window *win)
 	}
 	if ((err = glGetError()) != GL_NO_ERROR)
 	{
-		fprintf(stderr,"ERROR: glew_init: %s \n",
+		fprintf(stderr, "ERROR: glew_init: %s \n",
 				glewGetErrorString(err));
 		exit(-1);
 	}

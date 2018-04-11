@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 18:15:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/11 01:40:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 21:46:13 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void				keyboard_function(unsigned char key, int x, int y)
 	keyboard_action(g_win, key, x, y);
 }
 
-void				timer_function()
+void				timer_function(void)
 {
 	clock_t		current_clock;
+	int			wait_time;
 
 	current_clock = clock();
 	g_win->speed_multiplier = (float)(current_clock - g_win->frames) /
@@ -41,7 +42,7 @@ void				timer_function()
 		g_win->transition -= g_win->speed_multiplier * 30.f;
 	if (g_win->transition < 0)
 		g_win->transition = 0;
-	int wait_time = (1000 / 60) - (int)(g_win->speed_multiplier * 1000);
+	wait_time = (1000 / 60) - (int)(g_win->speed_multiplier * 1000);
 	if (wait_time > 0)
 		SDL_Delay(wait_time);
 }

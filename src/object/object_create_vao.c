@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 14:42:39 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 22:59:06 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/11 22:11:02 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void		init_buffer_from_vector(GLuint *id, t_vector *v,
 					GLuint attrib_number, GLuint elem_size)
 {
 	glGenBuffers(1, id);
-
 	glBindBuffer(GL_ARRAY_BUFFER, *id);
 	glBufferData(GL_ARRAY_BUFFER, v->size * v->elem_size,
 			(float*)v->elems, GL_STATIC_DRAW);
@@ -39,4 +38,3 @@ void			object_create_vao(t_object *obj)
 	glBindVertexArray(0);
 	check_gl_error(__FILE__, __LINE__);
 }
-
