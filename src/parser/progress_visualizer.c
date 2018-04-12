@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 23:08:33 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 14:13:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:27:35 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_visualizer		**init_visualizer_vars(int *i, int *size)
 	return (&v);
 }
 
-void		init_visualizer(char **lines, int size, int *i)
+void				init_visualizer(char **lines, int size, int *i)
 {
 	t_visualizer	*v;
 	int				calc_size;
@@ -50,7 +50,7 @@ void		init_visualizer(char **lines, int size, int *i)
 	}
 }
 
-void		update_visualizer(int *i)
+void				update_visualizer(int *i)
 {
 	t_visualizer	*v;
 	SDL_Rect		rect;
@@ -63,7 +63,7 @@ void		update_visualizer(int *i)
 	SDL_UpdateWindowSurface(v->w);
 }
 
-void		close_visualizer(void)
+void				close_visualizer(void)
 {
 	t_visualizer	**v;
 

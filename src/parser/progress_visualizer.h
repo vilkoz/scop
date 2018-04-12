@@ -6,14 +6,14 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 23:35:04 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 23:54:23 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:53:46 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROGRESS_VISUALIZER_H
 # define PROGRESS_VISUALIZER_H
 
-#include "graphics.h"
+# include "graphics.h"
 
 typedef struct		s_visualizer
 {
@@ -23,8 +23,8 @@ typedef struct		s_visualizer
 	int				size;
 }					t_visualizer;
 
-void		update_visualizer(int *i);
-void		init_visualizer(char **lines, int size, int *i);
-void		close_visualizer(void);
+void				update_visualizer(int *i);
+void				init_visualizer(char **lines, int size, int *i);
+void				close_visualizer(void);
 
 #endif

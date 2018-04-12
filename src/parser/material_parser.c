@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/31 14:09:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 15:19:05 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:19:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_vector		*material_parser(char **lines, int *i, char *prefix, void *obj)
 	(void)prefix;
 	m = ft_memalloc(sizeof(t_material));
 	ft_bzero((void*)&(filename[0]), 256);
-	sscanf(lines[*i],"mtllib %s",&(filename[0]));
+	sscanf(lines[*i], "mtllib %s", &(filename[0]));
 	relative_filename = get_relative_path(((t_parsed_object*)obj)->filename,
 			&(filename[0]));
 	(*i)++;

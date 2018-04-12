@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:10:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/08 15:14:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:18:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void			*load_texture(char *line, char *prefix, char *current_filename)
 	ft_bzero((void*)&(tex_filename[0]), 256);
 	if (sscanf(line, "Tex %255s", &(tex_filename[0])) != 1)
 	{
-		fprintf(stderr, "load_texture: wrong texture name in line: %s\n", &(tex_filename[0]));
+		fprintf(stderr, "load_texture: wrong texture name in line: %s\n",
+				&(tex_filename[0]));
 		return (NULL);
 	}
 	tex_path = get_relative_path(current_filename, &(tex_filename[0]));
@@ -34,7 +35,8 @@ void			*load_texture(char *line, char *prefix, char *current_filename)
 	*res = bmp_loader(tex_path);
 	if (res == NULL)
 	{
-		fprintf(stderr, "load_bmp: failed loading texture from: %s\n", tex_path);
+		fprintf(stderr, "load_bmp: failed loading texture from: %s\n",
+				tex_path);
 		return (NULL);
 	}
 	printf("loaded texture: %s\n", tex_path);

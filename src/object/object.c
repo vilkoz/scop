@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:45:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 14:39:09 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:17:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		init_texture(t_object *obj)
 {
 	glGenTextures(1, &(obj->ids.tex));
 	glBindTexture(GL_TEXTURE_2D, obj->ids.tex);
-	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, obj->bmp->w, obj->bmp->h, 0, GL_BGR,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, obj->bmp->w, obj->bmp->h, 0, GL_BGR,
 			GL_UNSIGNED_BYTE, obj->bmp->data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

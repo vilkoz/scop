@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:09:40 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/09 12:02:14 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/12 22:18:34 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static char				*g_second_filenames[7] = {
 	SKYBOX_FOLDER"/space_skybox/rt.bmp",
 	NULL
 };
-
 
 static float			g_skybox_points[] = {
 	50.000000, -50.000000, -50.000000,
