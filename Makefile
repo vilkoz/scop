@@ -2,7 +2,7 @@ NAME=scop
 
 VPATH=src
 
-FLAGS=-Wall -Wextra -Werror -I libft -I includes -g -O3
+FLAGS=-Wall -Wextra -I libft -I includes -g -O3
 ifeq ($(shell uname -s),Darwin)
 	FLAGS+=-I ~/Library/Frameworks/SDL2.framework/Headers
 	FLAGS+=-I ~/.brew/include
@@ -11,7 +11,7 @@ ifeq ($(shell uname -s),Darwin)
  	LINKER_FLAGS+=-L ~/.brew/lib/ -lGLEW
 	CC=clang
 else
-	LINKER_FLAGS=-lGL -lGLU -lGLEW -lSDL2 -lm
+	LINKER_FLAGS=-lGL -lGLU -lGLEW -lSDL2 -lm -lX11
 	CC=gcc
 endif
 
@@ -43,6 +43,7 @@ SRC=main.c								\
 	object/object_fit_to_screen.c		\
 	object/skybox/skybox.c				\
 	object/skybox/cubemap_loader.c		\
+	xlock.c
 
 BINDIR=bin
 

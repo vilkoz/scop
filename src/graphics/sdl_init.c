@@ -6,13 +6,14 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 08:28:53 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/04/11 21:48:25 by vrybalko         ###   ########.fr       */
+/*   Updated: 2018/04/16 18:02:36 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 #include "sdl_callbacks.h"
 #include <assert.h>
+#include "xlock.h"
 
 static void		cleanup(t_window *win)
 {
@@ -52,6 +53,8 @@ static void		init_window(t_window *win)
 	printf("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	win->enable_rotation = 1;
 	win->shading_type = TEXTURE_SHADING;
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	get_lock();
 }
 
 static void		get_uniforms_ids(t_ids *ids)
@@ -88,7 +91,7 @@ void			init_sdl(int ac, char **av, t_window *win)
 	{
 		fprintf(stderr, "ERROR: glew_init: %s \n",
 				glewGetErrorString(err));
-		exit(-1);
+		/* exit(-1); */
 	}
 	load_shaders(&(win->ids), VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH);
 	get_uniforms_ids(&(win->ids));
